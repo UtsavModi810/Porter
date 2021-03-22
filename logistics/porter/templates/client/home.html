@@ -1,0 +1,282 @@
+{% extends 'client/header.html' %}
+{% load static %}
+{% block content %}
+        <!-- header-start-end -->
+
+        <!-- main-area -->
+        <main>
+
+            <!-- slider-area -->
+            <section class="s-slider-area">
+                <div class="s-slider-bg fix">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="s-slider-content text-center">
+                                    <h6><span class="dots"></span>logistics/transport service<span class="dots2"></span></h6>
+                                    <h2 class="frame-1"><span>Porter</span></h2>
+                                    <h2 class="frame-2"><span>Porter</span></h2>
+                                    <h2 class="frame-3"><span>Porter</span></h2>
+                                    <h2 class="frame-4"><span>Porter</span></h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#category-section" class="icon-scroll">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </a>
+                    <div class="slider-golve">
+                        <img src="{% static 'client/img/slider/golve.png' %}" class="rotateme" alt="">
+                    </div>
+                    <div class="slider-golve-bike">
+                        <img src="{% static 'client/img/slider/bike.png' %}" alt="">
+                    </div>
+                    <div class="slide-golve-car">
+                        <img src="{% static 'client/img/slider/car.png' %}" alt="">
+                    </div>
+                    <div class="slider-plane">
+                        <img src="{% static 'client/img/slider/plane.png' %}" alt="">
+                    </div>
+                </div>
+            </section>
+            <!-- slider-area-end -->
+
+            <!-- category-area -->
+            <section id="category-section" class="s-category-area">
+                <div class="container">
+                    <div class="s-category-wrap">
+                        <div class="row">
+                            <div class="col-lg-3 col-sm-6">
+                                <a href="#" class="s-single-cat mb-30">
+                                    <div class="s-cat-icon">
+                                        <i class="flaticon-cruise"></i>
+                                    </div>
+                                    <div class="s-cat-content">
+                                        <h5>City Tempo</h5>
+                                        
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-lg-3 col-sm-6">
+                                <a href="#" class="s-single-cat mb-30">
+                                    <div class="s-cat-icon">
+                                        <i class="flaticon-air-freight"></i>
+                                    </div>
+                                    <div class="s-cat-content">
+                                        <h5>Package & Movers</h5>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-lg-3 col-sm-6">
+                                <a href="#" class="s-single-cat mb-30">
+                                    <div class="s-cat-icon">
+                                        <i class="flaticon-delivery-1"></i>
+                                    </div>
+                                    <div class="s-cat-content">
+                                        <h5>Enterprise</h5>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-lg-3 col-sm-6">
+                                <a href="#" class="s-single-cat mb-30">
+                                    <div class="s-cat-icon">
+                                        <i class="flaticon-package"></i>
+                                    </div>
+                                    <div class="s-cat-content">
+                                        <h5>Booking</h5>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- category-area-end -->
+
+            <!-- services-area -->
+            <section class="services-area delivery-bg pt-110 pb-90">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-xl-7 col-lg-10">
+                            <div class="s-section-title text-center mb-60">
+                                <h2>Category</h2>
+                                <p>Go beyond logistics, make the world go round and revolutionize business.</p>
+                            </div>
+                        </div>
+                    </div>
+                   
+                    <div class="services-wrapper">
+                        <div class="row">
+                            {% for cat in category %}
+                            <div class="col-lg-6 col-md-6">
+                                <div class="single-services mb-30">
+                                    <div class="services-thumb">
+                                        <a href="/categoryclient"><img src="{{ cat.image.url }}" alt="img"></a>
+                                    </div>
+                                    <div class="services-content">
+                                        <div class="services-icon">
+                                            <i class="flaticon-shipping-and-delivery"></i>
+                                        </div>
+                                       
+                                        <span>{{ cat.category_name }}</span>
+                                        <p>{{ cat.category_description }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                         
+                           
+                        </div>
+                    </div>
+                </div>
+            </section>
+           
+            <!-- services-area-end -->
+
+            <!-- video-area -->
+         
+            <!-- video-area-end -->
+
+            <!-- delivery-services -->
+          
+            <!-- delivery-services-end -->
+
+            <!-- fact-area -->
+           
+            <!-- fact-area-end -->
+
+            <!-- section-area -->
+            <section class="area-wrapper black-bg position-relative pt-115 pb-120 mx-auto">
+            
+                <div class="testimonial-map-bg col-12"></div>
+                <div class="container">
+                    <div class="row">
+                       
+                        <div class="col-lg-6 mx-auto">
+                            <div class="cta-area cta-pl">
+                                <div class="section-title white-title mb-60">
+                                    <h2>Customer Get Estimate</h2>
+                                   
+                                </div>
+                                <div class="cta-from">
+                                    <form id="distance_form">
+                                        
+                                        <div class="cta-form-col d-flex justify-content-between">
+                                            
+                                            <input class="cta-email"  id="from_places" type="text" placeholder="Pick Address">
+                                            <input id="origin" type="hidden" name="origin" required/>
+                                            
+                                            <input class="cta-email" id="to_places" type="text" placeholder="Drop Address">
+                                            <input id="destination" type="hidden" name="destination" required/>
+
+                                        </div>
+                                        <!-- <div class="cta-form-col d-flex justify-content-between">
+                                            <select class="custom-select">
+                                                <option selected="">City</option>
+                                            </select>
+                                            <input class="cta-email" type="email" placeholder="Email ID">
+                                        </div> -->
+                                      
+                                       
+                                        <input class="btn"  type="submit" value="Calculate"/>
+                                    </form>
+                                    <br/>
+                                    <div id="result">
+                                        <ul class="list-group">
+                                            <li id="distance_in_mile" class="list-group-item d-flex justify-content-between align-items-center">Distance In Mile : </li>
+                                            <li id="distance_in_kilometer" class="list-group-item d-flex justify-content-between align-items-center">Distance is Kilo : </li>
+                                            <li id="distance_in_minutes" class="list-group-item d-flex justify-content-between align-items-center">IN TEXT : </li>
+                                            <!-- <li id="distance_in_text" class="list-group-item d-flex justify-content-between align-items-center">IN MINUTES:</li> -->
+                                            <li id="from_location" class="list-group-item d-flex justify-content-between align-items-center">FROM : </li>
+                                            <li id="to_loaction" class="list-group-item d-flex justify-content-between align-items-center">TO : </li>
+                                        </ul>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- section-area-end -->
+
+            <!-- control-area -->
+            <section class="control-area pt-110 pb-120">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-xl-7 col-lg-10">
+                            <div class="s-section-title text-center mb-60">
+                                <h2>Vehicle</h2>
+                                <p>Competitive rates, safety, and reliable on-time</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="container-fluid control-fluid">
+                    <div class="row control-active">
+                        {% for ve in vehicle %}
+                        <div class="col-xl-4">
+                            <div class="single-control-wrap fix">
+                                <div class="control-thumb">
+                                    <img src="{{ ve.image.url }}" height="500" width="500" alt="img">
+                                </div>
+                                <div class="control-overlay-content">
+                                    <h4><a href="/vehicleclient">{{ ve.vehicle_name }} </a></h4>
+                                    <span> {{ ve.capacity }}</span>
+                                    <span> {{ ve.size }}</span>
+                                    <span>₹  {{ ve.price }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    
+                   
+                     
+                    </div>
+                </div>
+            </section>
+            <!-- control-area-end -->
+
+            <!-- brand-area -->
+         
+            <!-- brand-area-end -->
+
+            <!-- newsletter -->
+            <section class="newsletter-area gray-bg">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="newsletter-wrap">
+                                <div class="row">
+                                    <div class="col-lg-5">
+                                        <div class="newsletter-content">
+                                            <h4>Newsletter Sign Up</h4>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-7">
+                                        <div class="newsletter-form">
+                                            
+                                            <form method="POST">
+                                                {% csrf_token %}
+                                                <input type="email" name="email" placeholder="Enter your email...">
+                                                <button type="submit" class="btn">subscribe</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- newsletter-end -->
+
+        </main>
+        <!-- main-area-end -->
+
+        <!-- footer -->
+
+        
+{% endblock %}

@@ -1,0 +1,89 @@
+{% extends 'admin/header.html' %}
+{% load static %}
+{% block content %}
+
+<div class="content-wrapper"> 
+    <div class="content">
+      <div class="row"></div>
+        <div class="row m-t-3">
+            <div class="col-lg-12">
+              <div class="card">
+                <div class="card-header bg-blue">
+                  <h5 class="m-b-0">Category Update Form</h5>
+                </div>
+                <div class="card-body">
+                    {% if msg %}
+                <p class="alert alert-success m-2">{{ msg }}</p>
+                    {% endif %}
+                <form method="POST" name="myForm" class="form-horizontal form-bordered" enctype="multipart/form-data">
+                {% csrf_token %}
+                    <div class="form-body">
+                      <div class="form-group row">
+                        <label class="control-label text-right col-md-3">vehicle Name</label>
+                        <div class="col-md-9">
+                          <input name="vehiclename" value="{{ vehicle.vehicle_name }}" placeholder="category Name" class="form-control" type="text">
+                         
+                          </div>
+                      </div>
+
+                      <div class="form-group row">
+                        <label class="control-label text-right col-md-3">image</label>
+                        <div class="col-md-9">
+                        <img src="{{ vehicle.image.url }}" height="200" width="280">
+                        <input name="vehicleimage"  placeholder="category Name" class="form-control" type="file" required>
+                         
+                          </div>
+                      </div>
+
+                      <div class="form-group row">
+                        <label class="control-label text-right col-md-3">vehicle capacity</label>
+                        <div class="col-md-9">
+                          <input name="vehiclecapacity" value="{{ vehicle.capacity }}" placeholder="category Name" class="form-control" type="text">
+                         
+                          </div>
+                      </div>
+
+                      <div class="form-group row">
+                        <label class="control-label text-right col-md-3">vehicle size</label>
+                        <div class="col-md-9">
+                          <input name="vehiclesize" value="{{ vehicle.size }}" placeholder="category Name" class="form-control" type="text">
+                         
+                          </div>
+                      </div>
+
+                      <div class="form-group row">
+                        <label class="control-label text-right col-md-3">vehicle price</label>
+                        <div class="col-md-9">
+                          <input name="vehicleprice" value="{{ vehicle.price }}" placeholder="category Name" class="form-control" type="text">
+                          <input name="vehicleid" value="{{ vehicle.id }}" placeholder="city Name" class="form-control" type="text" style="display:none;">
+                          </div>
+                      </div>
+                   
+                      
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="offset-sm-3 col-md-9">
+                                        <input type="submit" class="btn btn-success"></input>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+         
+</div>   
+</div>
+</div>
+</div>
+<script language=“JavaScript”>
+
+  function LoadValue() {
+    myForm.vehicleimage.value="";
+  }
+  </script>
+{% endblock %}

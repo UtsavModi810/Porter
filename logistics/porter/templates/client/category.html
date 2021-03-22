@@ -1,0 +1,73 @@
+{% extends 'client/header.html' %}
+{% load static %}
+{% block content %}
+        <!-- header-start-end -->
+
+        <!-- main-area -->
+        <main>
+
+            <!-- breadcrumb-area -->
+           
+            <!-- breadcrumb-area-end -->
+
+            <!-- services-area -->
+            <section class="services-area delivery-bg pt-110 pb-90">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-xl-7 col-lg-10">
+                            <div class="s-section-title text-center mb-60">
+                                <h2>Category</h2>
+                                <p>Express delivery is an innovative service is effective logistics solution for the delivery of
+                                    small cargo. This service is useful for companies various.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="services-wrapper">
+                        <div class="row">
+                            {% for cat in category %}
+                            <div class="col-lg-6 col-md-6">
+                                <div class="single-services mb-30">
+                                    <div class="services-thumb">
+                                        <a href="/vehicleclient?cat_id={{ cat.id }}"><img src="{{ cat.image.url }}" alt="img"></a>
+                                    </div>
+                                    <div class="services-content">
+                                        <div class="services-icon">
+                                            <i class="flaticon-shipping-and-delivery"></i>
+                                        </div>
+                                      
+                                        <span>{{ cat.category_name }}</span>
+                                        <p>{{ cat.category_description }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                          
+                           
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- services-area-end -->
+
+            <!-- video-area -->
+           
+            <!-- video-area-end -->
+
+            <!-- faq-area -->
+           
+            <!-- faq-area-end -->
+
+            <!-- brand-area -->
+        
+            <!-- brand-area-end -->
+
+            <!-- newsletter -->
+           
+            <!-- newsletter-end -->
+
+        </main>
+        <!-- main-area-end -->
+
+        <!-- footer -->
+{% endblock %}      

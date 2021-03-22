@@ -1,0 +1,71 @@
+{% extends 'admin/header.html' %}
+{% load static %}
+{% block content %}
+
+
+<div class="content-wrapper"> 
+    <!-- Content Header (Page header) -->
+    <div class="content-header sty-one">
+      <h1>Table Layouts</h1>
+      <ol class="breadcrumb">
+        <li><a href="#">Home</a></li>
+        <li><i class="fa fa-angle-right"></i> <a href="#">Tables</a></li>
+        <li><i class="fa fa-angle-right"></i> Table Layouts</li>
+      </ol>
+    </div>
+    
+    <!-- Main content -->
+    <div class="content">
+      <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-12 m-b-3">
+            <h4 class="text-black d-inline">Category Table</h4>
+           <a href="/insertcategory" class="btn btn-success d-inline float-right">INSERT</a> 
+            <div class="table-responsive">
+              <table class="table">
+                <thead class="bg-success text-white">
+                  <tr>
+                    <th scope="col">Category ID</th>
+                    <th scope="col">Category Name</th>
+                    <th scope="col">Category Description</th>
+                    <th scope="col">Category Image</th>
+                    <th scope="col">Action</th>
+                   
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for cat in categorys %}
+                  <tr>
+                    <th scope="row">{{ cat.id }}</th>
+                    <td>{{ cat.category_name }}</td>
+                    <td>{{ cat.category_description }}</td>
+                    <td><img src="{{ cat.image.url }}" height="50" width="100"></td>
+
+                    <td>
+                        <a href="/managecategory?del_category_id={{ cat.id }}"><img class="img-fluid" src="{% static 'dist/img/1.png' %}" height="25" width="25"></a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <a href="../updatecategory?update_category_id={{ cat.id }}"><img class="img-fluid" src="{% static 'dist/img/2.png' %}" height="25" width="25"></a>
+                    </td>
+                 
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+         
+         
+         
+        
+         
+          
+          
+          
+        </div></div>
+      </div>
+    </div>
+    <!-- /.content --> 
+  </div>
+
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends 'admin/header.html' %}
+{% load static %}
+{% block content %}
+
+<div class="content-wrapper"> 
+    <div class="content">
+      <div class="row"></div>
+        <div class="row m-t-3">
+            <div class="col-lg-12">
+              <div class="card">
+                <div class="card-header bg-blue">
+                  <h5 class="m-b-0">Category Update Form</h5>
+                </div>
+                <div class="card-body">
+                    {% if msg %}
+                <p class="alert alert-success m-2">{{ msg }}</p>
+                    {% endif %}
+                <form method="POST" class="form-horizontal form-bordered" enctype="multipart/form-data">
+                {% csrf_token %}
+                    <div class="form-body">
+                      <div class="form-group row">
+                        <label class="control-label text-right col-md-3">category Name</label>
+                        <div class="col-md-9">
+                          <input name="categoryname" value="{{ category.category_name }}" placeholder="category Name" class="form-control" type="text">
+                         
+                          </div>
+                      </div>
+
+                      <div class="form-group row">
+                        <label class="control-label text-right col-md-3">category Description</label>
+                        <div class="col-md-9">
+                          <input name="categorydescription" value="{{ category.category_description }}" placeholder="category Name" class="form-control" type="text">
+                          <input name="categoryid" value="{{ category.id }}" placeholder="city Name" class="form-control" type="text" style="display:none;">
+                          </div>
+                      </div>
+
+                      <div class="form-group row">
+                        <label class="control-label text-right col-md-3">image</label>
+                        <div class="col-md-9">
+                        <img src="{{ category.image.url }}" height="200" width="280">
+                        <input name="categoryimage"  placeholder="category image" class="form-control" type="file" required>
+                         
+                          </div>
+                      </div>
+                   
+                      
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="offset-sm-3 col-md-9">
+                                        <input type="submit" class="btn btn-success"></input>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+         
+</div>   
+</div>
+</div>
+</div>
+{% endblock %}

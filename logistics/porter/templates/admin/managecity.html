@@ -1,0 +1,66 @@
+{% extends 'admin/header.html' %}
+{% load static %}
+{% block content %}
+
+
+<div class="content-wrapper"> 
+    <!-- Content Header (Page header) -->
+    <div class="content-header sty-one">
+      <h1>Table Layouts</h1>
+      <ol class="breadcrumb">
+        <li><a href="#">Home</a></li>
+        <li><i class="fa fa-angle-right"></i> <a href="#">Tables</a></li>
+        <li><i class="fa fa-angle-right"></i> Table Layouts</li>
+      </ol>
+    </div>
+    
+    <!-- Main content -->
+    <div class="content">
+      <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-12 m-b-3">
+            <h4 class="text-black d-inline">City Table</h4>
+           <a href="/insertcity" class="btn btn-success d-inline float-right">INSERT</a> 
+            <div class="table-responsive">
+              <table class="table">
+                <thead class="bg-success text-white">
+                  <tr>
+                    <th scope="col">City ID</th>
+                    <th scope="col">City Name</th>
+                    <th scope="col">Action</th>
+                   
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for ci in citys %}
+                  <tr>
+                    <th scope="row">{{ ci.id }}</th>
+                    <td>{{ ci.city_name }}</td>
+                    <td>
+                        <a href="/managecity?del_city_id={{ ci.id }}"><img class="img-fluid" src="{% static 'dist/img/1.png' %}" height="25" width="25"></a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <a href="../updatecity?update_city_id={{ ci.id }}"><img class="img-fluid" src="{% static 'dist/img/2.png' %}" height="25" width="25"></a>
+                    </td>
+                 
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+         
+         
+         
+        
+         
+          
+          
+          
+        </div></div>
+      </div>
+    </div>
+    <!-- /.content --> 
+  </div>
+
+{% endblock %}

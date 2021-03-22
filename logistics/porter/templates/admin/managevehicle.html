@@ -1,0 +1,75 @@
+{% extends 'admin/header.html' %}
+{% load static %}
+{% block content %}
+
+
+<div class="content-wrapper"> 
+    <!-- Content Header (Page header) -->
+    <div class="content-header sty-one">
+      <h1>Table Layouts</h1>
+      <ol class="breadcrumb">
+        <li><a href="#">Home</a></li>
+        <li><i class="fa fa-angle-right"></i> <a href="#">Tables</a></li>
+        <li><i class="fa fa-angle-right"></i> Table Layouts</li>
+      </ol>
+    </div>
+    
+    <!-- Main content -->
+    <div class="content">
+      <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-12 m-b-3">
+            <h4 class="text-black d-inline">Vehicle Table</h4>
+           <a href="/insertvehicle" class="btn btn-success d-inline float-right">INSERT</a> 
+            <div class="table-responsive">
+              <table class="table">
+                <thead class="bg-success text-white">
+                  <tr>
+                    <th scope="col">Vehicle ID</th>
+                    <th scope="col">Vehcicle Name</th>
+                    <th scope="col">Image</th>
+                    <th scope="col">Capacity</th>
+                    <th scope="col">Size</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Action</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for v in vehicles %}
+                  <tr>
+                    <th scope="row">{{ v.id }}</th>
+                    <td>{{ v.vehicle_name }}</td>
+                    <td><img src="{{ v.image.url }}" height="50" width="100"></td>
+                    <td>{{ v.capacity }}</td>
+                    <td>{{ v.size }}</td>
+                    <td>{{ v.price }}</td>
+
+                    <td>
+                        <a href="/managevehicle?del_vehicle_id={{ v.id }}"><img class="img-fluid" src="{% static 'dist/img/1.png' %}" height="25" width="25"></a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <a href="../updatevehicle?update_vehicle_id={{ v.id }}"><img class="img-fluid" src="{% static 'dist/img/2.png' %}" height="25" width="25"></a>
+                    </td>
+                 
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+         
+         
+         
+        
+         
+          
+          
+          
+        </div></div>
+      </div>
+    </div>
+    <!-- /.content --> 
+  </div>
+
+{% endblock %}

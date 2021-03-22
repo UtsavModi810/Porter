@@ -1,0 +1,73 @@
+{% extends 'client/header.html' %}
+{% load static %}
+{% block content %}
+<!-- header-start-end -->
+
+        <!-- main-area -->
+        <main>
+
+            <!-- breadcrumb-area -->
+           
+            <!-- breadcrumb-area-end -->
+
+            <!-- support-area -->
+            <div class="support-area support-bg pt-110 pb-120">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-xl-7 col-lg-10">
+                            <div class="s-section-title text-center mb-60">
+                                <h2>Login</h2>
+                               
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-lg-10">
+                            <div class="support-form text-center">
+                                <form method="POST">
+                                   {% csrf_token %}
+                                   {% if error %}
+                                    <p class="alert alert-danger col-md-6 mx-auto">{{ error }}</p>
+                                    {% endif %}
+                                        <div class="col-md-6 mx-auto text-left">
+                                            <label class="font-weight-bold h5">Email</label>
+                                            <input type="email" name="email" placeholder="Enter Email">
+                                        </div>
+                                        <br/>
+                                        
+                                        <div class="col-md-6 mx-auto text-left">
+                                            <label class="font-weight-bold h5">Password</label>
+                                            <input type="password" name="password" placeholder="Enter Password">
+                                        </div>
+                                    
+                                       
+                                        <div class="col-md-6 mx-auto row">
+                                        
+                                        <a href="/client_register" class="pt-3 text-dark font-weight-bold col-md-4 text-left">Sign UP</a>
+
+                                        <button class="btn red-btn col-md-4">Submit</button>
+
+                                        <a href="/client_forget" class="pt-3 text-dark font-weight-bold col-md-4 text-right">Forget Password</a>
+                                        </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- support-area-end -->
+
+            <!-- contact-area -->
+          
+            <!-- contact-area-end -->
+
+            <!-- contact-map -->
+         
+            <!-- contact-map-end -->
+
+        </main>
+        <!-- main-area-end -->
+
+        <!-- footer -->
+
+        {% endblock %}
