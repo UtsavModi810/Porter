@@ -19,8 +19,9 @@ def home(request):
     if admin_id:
         admin = Admindetail.objects.get(id = admin_id)
         customers=Customer.objects.all().count()
-        enterprises=Enterprise.objects.all().count()
-        return render(request , 'admin/index.html',{'admin': admin,'customers':customers,'enterprises':enterprises})
+        categories=Category.objects.all().count()
+        bookings=Booking.objects.all().count()
+        return render(request , 'admin/index.html',{'admin': admin,'customers':customers,'categories':categories,'bookings':bookings})
     else:
         return redirect('admin_login')
 
@@ -652,3 +653,17 @@ def bookingdetail(request):
     customer_id = request.session.get('customer_id')
     bookings=Booking.objects.filter(customer_id=customer_id)
     return render(request,'client/bookingdetail.html',{'bookings':bookings})
+
+
+def trackorder(request):
+    return render(request,'client/trackorder.html')
+
+
+def managetrackorder(request):
+    driver_id = request.session.get('driver_id')
+    if driver_id:
+        bookings=Booking.objects.filter(driver_id=driver_id)
+        trackvalue=request.GET.get('trackvalue')
+                
+
+        return render(request,'driver/managetrackorder.html',{'bookings':bookings})

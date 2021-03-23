@@ -32,6 +32,7 @@ urlpatterns = [
     path('driver_register/', views.driver_register, name='driver_register'),
     path('driver_forget/', views.driver_forget, name='driver_forget'),
     path('resetpassworddriver/', views.resetpassworddriver, name='resetpassworddriver'),
+    path('managetrackorder/', views.managetrackorder, name='managetrackorder'),
 
 
      # Client URLS
@@ -47,6 +48,16 @@ urlpatterns = [
     path('bookingclient/', views.bookingclient, name='bookingclient'),
     path('bookingclient1/', views.bookingclient1, name='bookingclient1'),
     path('bookingdetail/', views.bookingdetail, name='bookingdetail'),
+    path('trackorder/', views.trackorder, name='trackorder'),
+
+
+
+
+    # #PayPal
+    # path('admin/', admin.site.urls),
+    # path('', include('cart.urls')),
+    # path('paypal/', include('paypal.standard.ipn.urls')),
+
     
 ]
 

@@ -43,7 +43,7 @@
                 <td>{{ b.pick_address }}</td>
                 <td>{{ b.drop_address }}</td>
                 <td>{{ b.category_id.category_name }}</td>
-                <td>{{ b.vehcile_id.vehicle_name }}</td>
+                <td>{{ b.vehicle_id.vehicle_name }}</td>
                 <td>{{ b.date }}</td>
                 <td>{{ b.total_amount }}</td>
                 {% if b.status == 'accepted' %}
@@ -59,7 +59,7 @@
 
                 {% if b.status == 'accepted' %}
                 <td><a href="#" class="btn btn-sm btn-info">Payment</a></td>
-                <td><a href="#" class="btn btn-sm btn-warning">Track Order</a></td>
+                <td><a href="/trackorder" class="btn btn-sm btn-warning">Track Order</a></td>
 
                 {% else %}
 
