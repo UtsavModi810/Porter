@@ -34,23 +34,40 @@
                                 <br/>
                                 <div class="tracking-list">
                                     <ul>
+                                        {% if track_status > 0  %}
                                         <li class="active">
+                                        {% else %}
+                                        <li>
+                                        {% endif %}
                                             <div class="tracking-list-icon">
                                                 <i class="flaticon-box"></i>
                                             </div>
                                             <div class="tracking-list-content">
                                                 <p>Dispatch</p>
                                             </div>
+                                            
                                         </li>
+                                      
+                                        
+                                        {% if track_status > 1  %}
                                         <li class="active">
+                                        {% else %}
+                                        <li>
+                                        {% endif %}
                                             <div class="tracking-list-icon">
                                                 <i class="flaticon-warehouse"></i>
                                             </div>
                                             <div class="tracking-list-content">
-                                                <p>Shipping</p>
+                                                <p>Shipped</p>
                                             </div>
                                         </li>
+
+
+                                        {% if track_status > 2  %}
+                                        <li class="active">
+                                        {% else %}
                                         <li>
+                                        {% endif %}
                                             <div class="tracking-list-icon">
                                                 <i class="flaticon-placeholder"></i>
                                             </div>
@@ -58,7 +75,13 @@
                                                 <p>Out For Delivery</p>
                                             </div>
                                         </li>
+
+
+                                        {% if track_status > 3  %}
+                                        <li class="active">
+                                        {% else %}
                                         <li>
+                                        {% endif %}
                                             <div class="tracking-list-icon">
                                                 <i class="flaticon-audit"></i>
                                             </div>
@@ -89,17 +112,17 @@
                     </div>
                     <div class="services-wrapper">
                         <div class="row">
-                            <div class="col-lg-4 col-md-6">
+                            <div class="col-lg-4 col-md-6 mx-auto">
                                 <div class="s-single-services mb-50">
                                     <div class="services-thumb mb-25">
-                                        <a href="#"><img src="img/images/s_services_img01.jpg" alt="img"></a>
+                                        <a href="/bookingdetail"><img src="{{ booking.vehicle_id.image.url }}" height="250" width="100" alt="img"></a>
                                     </div>
                                     <div class="s-services-content">
-                                        <h6>Delivery Service</h6>
-                                        <h3><a href="#">Anywhere Shipping</a></h3>
-                                        <p>Express delivery is an innovativ service is effective logistics solutio for delivery of
-                                            small cargo service.</p>
-                                        <a href="#" class="btn red-btn">LET US HELP</a>
+                                        <h6>{{ booking.vehicle_id.vehicle_name }}</h6>
+                                        <h3><a href="/bookingdetail">{{ booking.category_id.category_name }}</a></h3>
+                                        <p>{{ booking.pick_address }}</p>
+                                        <p>{{ booking.drop_address }}</p>
+                                        <a href="/bookingdetail" class="btn red-btn">View</a>
                                     </div>
                                 </div>
                             </div>

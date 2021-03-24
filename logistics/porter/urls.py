@@ -23,6 +23,7 @@ urlpatterns = [
     path('updatevehicle/', views.updatevehicle, name='updatevehicle'),
     path('managedriver/', views.managedriver, name='managedriver'),  
     path('managebooking/', views.managebooking, name='managebooking'),  
+    path('trackorderadmin/', views.trackorderadmin, name='trackorderadmin'),  
   
 
     # Driver URLS

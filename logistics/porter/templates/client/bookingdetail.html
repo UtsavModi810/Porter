@@ -59,7 +59,7 @@
 
                 {% if b.status == 'accepted' %}
                 <td><a href="#" class="btn btn-sm btn-info">Payment</a></td>
-                <td><a href="/trackorder" class="btn btn-sm btn-warning">Track Order</a></td>
+                <td><a href="/trackorder?b_id={{b.id}}" class="btn btn-sm btn-warning">Track Order</a></td>
 
                 {% else %}
 

@@ -1,0 +1,93 @@
+{% extends 'admin/header.html' %}
+{% load static %}
+{% block content %}
+
+<div class="content-wrapper"> 
+    <!-- Content Header (Page header) -->
+    <div class="content-header sty-one">
+      <h1>Data Tables</h1>
+      <ol class="breadcrumb">
+        <li><a href="#">Home</a></li>
+        <li><i class="fa fa-angle-right"></i> <a href="#">Tables</a></li>
+        <li><i class="fa fa-angle-right"></i> Data Tables</li>
+      </ol>
+    </div>
+    
+    <!-- Main content -->
+    <div class="content">
+      <div class="card">
+      <div class="card-body">
+      <h4 class="text-black">Track Order Table</h4>
+      <div class="table-responsive">
+                  <table id="example2" class="table table-bordered table-hover" data-name="cool-table">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Customer Name</th>
+                        <th>Driver Name</th>
+                        <th>Vehicle Name</th>
+                        <th>Pick Address</th>
+                        <th>Drop Address</th>
+                        <th>Status</th>
+                        
+                      </tr>
+                    </thead>
+                    <tbody>
+                    {% for b in bookings %}
+                      <tr>
+                        <td>{{ b.id }}</td>
+                        <td>{{ b.customer_id.first_name }}</td>
+                        <td>{{ b.driver_id.driver_name }}</td>
+                        <td>{{ b.vehicle_id.vehicle_name }}</td>
+                        <td>{{ b.pick_address }}</td>
+                        <td>{{ b.drop_address }}</td>
+                        {% if b.track_status == 1 %}
+                        <td>Dispatch</td>
+                        {% elif b.track_status == 2 %}
+                        <td>Shipped</td>
+                        {% elif b.track_status == 3 %}
+                        <td>Out For Delivery</td>
+                        {% elif b.track_status == 4 %}
+                        <td>Delivered Successfully</td>
+                        {% else %}
+                        <td>NOT STARTED TRACK ORDER</td>
+                        {% endif %}
+                      </tr>
+                      {% endfor %}
+                    </tbody>  
+                  </table>
+                  </div>
+      </div></div>
+      
+      
+
+    </div>
+    <!-- /.content --> 
+  </div>
+  {% endblock %}
+  {% block script %}
+  <script src="{% static 'dist/plugins/datatables/jquery.dataTables.min.js' %}"></script> 
+  <script src="{% static 'dist/plugins/datatables/dataTables.bootstrap.min.js' %}"></script> 
+  <script>
+    $(function () {
+      $('#example1').DataTable()
+      $('#example2').DataTable({
+        'paging'      : true,
+        'lengthChange': false,
+        'searching'   : false,
+        'ordering'    : true,
+        'info'        : true,
+        'autoWidth'   : false
+      })
+    })
+  </script>
+  
+  <script src="{% static 'dist/plugins/table-expo/filesaver.min.js' %}"></script>
+  <script src="{% static 'dist/plugins/table-expo/xls.core.min.js' %}"></script>
+  <script src="{% static 'dist/plugins/table-expo/tableexport.js' %}"></script>
+  <script>
+  $("table").tableExport({formats: ["csv", "txt"],    });
+  </script>
+  {% endblock %}
+  
+  

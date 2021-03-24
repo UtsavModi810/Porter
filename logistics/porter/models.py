@@ -73,10 +73,8 @@ class Booking(models.Model):
     vehicle_id = models.ForeignKey(Vehicle, on_delete=models.CASCADE)
     total_amount =models.PositiveIntegerField(max_length=6)
     status = models.CharField(max_length=50,default='pending')
+    track_status = models.PositiveIntegerField(max_length=2,default=0 )
 
-class Track(models.Model):
-    booking_id = models.ForeignKey(Booking, on_delete=models.CASCADE)
-    trackorder_detail=models.CharField(max_length=100)
 
 class Payment(models.Model):
     payment_status=models.BooleanField(default=False)

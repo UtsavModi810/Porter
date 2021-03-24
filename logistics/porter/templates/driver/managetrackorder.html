@@ -24,40 +24,56 @@
           <div class="card-body">
           <h4 class="text-black">Track order Table</h4>
           <div class="table-responsive">
-                      <table id="example2" class="table table-bordered table-hover" data-name="cool-table">
-                        <thead>
-                          <tr>
-                           
-                            <th>Booking Name</th>
-                            <th>Track Order Detail</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                        {% for b in bookings %}
-                          <tr>
+            <table id="example2" class="table table-bordered table-hover" data-name="cool-table">
+              <thead>
+                <tr>
+                 
+                  <th>Booking Name</th>
+                  <th>Pick Address</th>
+                  <th>Drop Address</th>
+                  <th>Track Order Detail</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for b in bookings %}
+                <tr>
 
-                           
-                            <td>{{ b.id }}</td>
-                            
-                            <td> 
-                                <form method="GET">
-                                <div class="has-success">
-                                    <div class="checkbox">
-                                      <label>
-                                        <input name="trackvalue" value="1" type="checkbox">
-                                        Dispatch </label>
+                 
+                  <td>{{ b.id }}</td>
+                  <td>{{ b.pick_address }}</td>
+                  <td>{{ b.drop_address }}</td>
+                  
+                  <td> 
+                      <form method="POST">
+                      {% csrf_token %}
+                      <div class="has-success">
+                          <div class="checkbox">
+                            <label>
+                              {% if b.track_status == 0 %}
+                            <input name="trackvalue" value="1" type="checkbox" required>
+                              Dispatch </label>
+                              {% elif b.track_status == 1 %}
+                              <input name="trackvalue" value="1" type="checkbox" required>
+                              Shipped </label>
+                              {% elif b.track_status == 2 %}
+                              <input name="trackvalue" value="1" type="checkbox" required>
+                              Out For Delivery </label>
+                              {% elif b.track_status == 3 %}
+                              <input name="trackvalue" value="1" type="checkbox" required>
+                              Delivery Successfully </label>
+                              {% endif %}
+                            <input type="number" name="booking_id" value="{{b.id}}" hidden/>
+                            <input type="submit" class="btn btn-primary btn-sm"/>
+                          </div>
+                        </div>
+                      </form>
+                  </td>
 
-                                    <input type="submit"/>
-                                    </div>
-                                  </div>
-                                </form>
-                            </td>
-    
-                           
-                          </tr>
-                        {% endfor %}
-                        </tbody>  
-                      </table>
+                 
+                </tr>
+              {% endfor %}
+              </tbody>  
+            </table>
                       </div>
           </div></div>
           

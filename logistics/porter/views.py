@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Admindetail,Customer,Enterprise,City,Category,Vehicle,Driver,Booking
+from .models import Admindetail,Customer,Enterprise,City,Category,Vehicle,Driver,Booking,TrackDetails
 from django.shortcuts import render,redirect,reverse
 from json import dumps
 from django.utils.encoding import smart_bytes
@@ -330,6 +330,16 @@ def managebooking(request):
     else:
         return redirect('admin_login')
 
+def trackorderadmin(request):
+    admin_id = request.session.get('admin_id')
+    if admin_id:
+        admin = Admindetail.objects.get(id = admin_id)
+        bookings=Booking.objects.all()
+
+        return render(request,'admin/trackorder.html',{ 'bookings':bookings })
+    else:
+        return redirect('admin_login')
+
 
 def managedriver(request):
     admin_id = request.session.get('admin_id')
@@ -656,14 +666,35 @@ def bookingdetail(request):
 
 
 def trackorder(request):
-    return render(request,'client/trackorder.html')
+    booking_id=request.GET.get('b_id')
+    if booking_id:
+        booking=Booking.objects.get(id=booking_id)
+
+    return render(request,'client/trackorder.html',{'track_status':booking.track_status,'booking':booking})
 
 
 def managetrackorder(request):
     driver_id = request.session.get('driver_id')
     if driver_id:
         bookings=Booking.objects.filter(driver_id=driver_id)
-        trackvalue=request.GET.get('trackvalue')
-                
+        # all_status = []
+        # for b in bookings:
+        #     try:
+        #         status = TrackDetails.objects.get(booking_id=b.id)
+        #     except:
+        #         pass  
+        #     if status.track_status == 1:
+        #         all_status.append('shipped')
+        #     elif status..track_status == 2:
+        #         all_status.append('out for delivery')
+        #     elif status.track_status == 3:
+        #         all_status.append('Delivery Successfully')
+        if request.method == 'POST':
+            booking_id = request.POST.get('booking_id')
+            trackvalue = request.POST.get('trackvalue')
+            booking = Booking.objects.get(id = booking_id)
+            booking.track_status += int(trackvalue)
+            booking.save(update_fields=['track_status'])
+            
 
         return render(request,'driver/managetrackorder.html',{'bookings':bookings})
