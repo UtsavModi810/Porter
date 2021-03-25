@@ -143,6 +143,8 @@
             success: function (response) {
                     console.log(response)
                     document.location.href = "{% url 'bookingdetail' %}";
+                    console.log($("#origin").val());
+                    console.log($("#destination").val());
             },
             error: function (errorThrown) {
                 console.log(errorThrown.responseText)

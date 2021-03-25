@@ -50,7 +50,7 @@ urlpatterns = [
     path('bookingclient1/', views.bookingclient1, name='bookingclient1'),
     path('bookingdetail/', views.bookingdetail, name='bookingdetail'),
     path('trackorder/', views.trackorder, name='trackorder'),
-
+    path('payment/', views.payment, name='payment'),
 
 
 

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Admindetail,Customer,Enterprise,City,Category,Vehicle,Driver,Booking,TrackDetails
+from .models import Admindetail,Customer,Enterprise,City,Category,Vehicle,Driver,Booking
 from django.shortcuts import render,redirect,reverse
 from json import dumps
 from django.utils.encoding import smart_bytes
@@ -362,7 +362,9 @@ def driverhome(request):
         if b_id:
             booking=Booking.objects.get(id=b_id)
             booking.status=status[1]
-            booking.save(update_fields=['status'])
+            booking.driver_id = driver
+            booking.save(update_fields=['status','driver_id'])
+
 
 
             email=booking.customer_id.email
@@ -650,19 +652,27 @@ def bookingclient1(request):
     total = listdata[5].split('"')[1]
     date = datetime.datetime.now()
 
+    print(origin)
+    print(destination)
+    print(record)
+
     vehicle = Vehicle.objects.get(id=vehicle_id)
     category=Category.objects.get(id=category_id)
     
-    booking=Booking(pick_address = origin, drop_address = destination,category_id = category, vehicle_id = vehicle, date = date, customer_id = customer,total_amount=float(total))
-    booking.save() 
+    # booking=Booking(pick_address = origin, drop_address = destination,category_id = category, vehicle_id = vehicle, date = date, customer_id = customer,total_amount=float(total))
+    # booking.save() 
 
     return render(request,'client/home.html')
 
 
 def bookingdetail(request):
     customer_id = request.session.get('customer_id')
-    bookings=Booking.objects.filter(customer_id=customer_id)
-    return render(request,'client/bookingdetail.html',{'bookings':bookings})
+    if customer_id:
+
+        bookings=Booking.objects.filter(customer_id=customer_id)
+        return render(request,'client/bookingdetail.html',{'bookings':bookings})
+    else:
+        return redirect('client_login')
 
 
 def trackorder(request):
@@ -698,3 +708,7 @@ def managetrackorder(request):
             
 
         return render(request,'driver/managetrackorder.html',{'bookings':bookings})
+
+
+def payment(request):
+    return render(request,'client/payment.html')

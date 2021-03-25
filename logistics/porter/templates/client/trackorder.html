@@ -33,6 +33,9 @@
                                 <br/>
                                 <br/>
                                 <div class="tracking-list">
+                                    {% if track_status == 4 %}
+                                    <p class="alert alert-success display-4 py-5">Successfully Delivered</p>
+                                    {% else %}
                                     <ul>
                                         {% if track_status > 0  %}
                                         <li class="active">
@@ -90,6 +93,7 @@
                                             </div>
                                         </li>
                                     </ul>
+                                    {% endif %}
                                 </div>
                                
                             </div>

@@ -52,18 +52,35 @@
                               {% if b.track_status == 0 %}
                             <input name="trackvalue" value="1" type="checkbox" required>
                               Dispatch </label>
+
+                              <input type="number" name="booking_id" value="{{b.id}}" hidden/>
+                              <input type="submit" class="btn btn-primary btn-sm"/>
+                             
                               {% elif b.track_status == 1 %}
                               <input name="trackvalue" value="1" type="checkbox" required>
                               Shipped </label>
+
+                              <input type="number" name="booking_id" value="{{b.id}}" hidden/>
+                              <input type="submit" class="btn btn-primary btn-sm"/>
+
                               {% elif b.track_status == 2 %}
                               <input name="trackvalue" value="1" type="checkbox" required>
                               Out For Delivery </label>
+
+                              <input type="number" name="booking_id" value="{{b.id}}" hidden/>
+                              <input type="submit" class="btn btn-primary btn-sm"/>
+
                               {% elif b.track_status == 3 %}
                               <input name="trackvalue" value="1" type="checkbox" required>
                               Delivery Successfully </label>
+
+                              <input type="number" name="booking_id" value="{{b.id}}" hidden/>
+                              <input type="submit" class="btn btn-primary btn-sm"/>
+
+                              {% else %}
+                              <p class="text-success"><b>Succesful Delivered</b></p>
                               {% endif %}
-                            <input type="number" name="booking_id" value="{{b.id}}" hidden/>
-                            <input type="submit" class="btn btn-primary btn-sm"/>
+                           
                           </div>
                         </div>
                       </form>
