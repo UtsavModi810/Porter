@@ -652,15 +652,15 @@ def bookingclient1(request):
     total = listdata[5].split('"')[1]
     date = datetime.datetime.now()
 
-    print(origin)
-    print(destination)
-    print(record)
+    # print(origin)
+    # print(destination)
+    # print(record)
 
     vehicle = Vehicle.objects.get(id=vehicle_id)
     category=Category.objects.get(id=category_id)
     
-    # booking=Booking(pick_address = origin, drop_address = destination,category_id = category, vehicle_id = vehicle, date = date, customer_id = customer,total_amount=float(total))
-    # booking.save() 
+    booking=Booking(pick_address = origin, drop_address = destination,category_id = category, vehicle_id = vehicle, date = date, customer_id = customer,total_amount=float(total))
+    booking.save() 
 
     return render(request,'client/home.html')
 
