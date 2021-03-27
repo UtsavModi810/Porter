@@ -81,6 +81,10 @@
                                 <input type="text" name="v_name" id="v_name" value="{{ vehicle.id }}" hidden readonly>
                                 <input type="text" name="demo1" id="cat1" value="{{ vehicle.vehicle_name }}" readonly>
                             </div>
+                            <div class="col-md-6 mx-auto text-left">
+                                <label class="font-weight-bold h5">Shipping Items</label>
+                                <input type="text" name="s_items" id="s_items" placeholder="Enter shipping items" >
+                            </div>
                             <br />
 
                             <br />
@@ -139,7 +143,7 @@
             "method": "GET",
             "timeout": 0,
             "headers": { "Content-Type": "application/json" },
-            "data": JSON.stringify({ 'origin': $("#origin").val(),'destination': $("#destination").val(),'c_name': $("#c_name").val(),'v_name': $("#v_name").val(),'total': $("#total").val()}),
+            "data": JSON.stringify({ 'origin': $("#origin").val(),'destination': $("#destination").val(),'c_name': $("#c_name").val(),'v_name': $("#v_name").val(),'total': $("#total").val(), 'items': $("#s_items").val()}),
             success: function (response) {
                     console.log(response)
                     document.location.href = "{% url 'bookingdetail' %}";

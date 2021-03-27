@@ -122,10 +122,11 @@
                                         <a href="/bookingdetail"><img src="{{ booking.vehicle_id.image.url }}" height="250" width="100" alt="img"></a>
                                     </div>
                                     <div class="s-services-content">
-                                        <h6>{{ booking.vehicle_id.vehicle_name }}</h6>
-                                        <h3><a href="/bookingdetail">{{ booking.category_id.category_name }}</a></h3>
-                                        <p>{{ booking.pick_address }}</p>
-                                        <p>{{ booking.drop_address }}</p>
+                                        <h6>Vehicle Name :{{ booking.vehicle_id.vehicle_name }}</h6>
+                                        <h3><b>Category Name :</b><a href="/bookingdetail">{{ booking.category_id.category_name }}</a></h3>
+                                        <p><b>Pick Address :</b>{{ booking.pick_address }}</p>
+                                        <p><b>Drop Address :</b>{{ booking.drop_address }}</p>
+                                        <p><b> Shipping Items :</b> {{ booking.items }}</p>
                                         <a href="/bookingdetail" class="btn red-btn">View</a>
                                     </div>
                                 </div>

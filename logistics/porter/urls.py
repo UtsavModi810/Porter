@@ -34,6 +34,7 @@ urlpatterns = [
     path('driver_forget/', views.driver_forget, name='driver_forget'),
     path('resetpassworddriver/', views.resetpassworddriver, name='resetpassworddriver'),
     path('managetrackorder/', views.managetrackorder, name='managetrackorder'),
+    path('customerbooking/', views.customerbooking, name='customerbooking'),
 
 
      # Client URLS

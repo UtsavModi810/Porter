@@ -53,37 +53,60 @@
                     {% if msg %}
                 <p class="alert alert-success m-2">{{ msg }}</p>
                     {% endif %}
-                <form method="POST" class="form-horizontal form-bordered">
+                <form method="POST" class="form-horizontal form-bordered" enctype="multipart/form-data"  id="myform">
                 {% csrf_token %}
                     <div class="form-body">
                       <div class="form-group row">
                         <label class="control-label text-right col-md-3">Driver Name</label>
                         <div class="col-md-9">
-                          <input name="driver_name"  placeholder="First Name" class="form-control" type="text">
+                          <input name="driver_name"  placeholder=" Enter Driver Name" class="form-control" type="text" required>
                           </div>
                       </div>
                     <div class="form-group row">
                         <label class="control-label text-right col-md-3">Address</label>
                         <div class="col-md-9">
-                          <input name="address" placeholder="Last Name" class="form-control" type="text">
+                          <input name="address" placeholder="Enter Address" class="form-control" type="text" required>
                           </div>
                     </div>
                     <div class="form-group row">
                         <label class="control-label text-right col-md-3">Email</label>
                         <div class="col-md-9">
-                          <input name="email" placeholder="Address" class="form-control" type="text">
+                          <input name="email" placeholder="Enter Email" class="form-control" type="text" required>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="control-label text-right col-md-3">Password</label>
                         <div class="col-md-9">
-                          <input name="password" class="form-control" type="text">
+                          <input name="password" placeholder="Enter Password" class="form-control" type="password" required>
                         </div>
                     </div>
+
+                    <div class="form-group row">
+                        <label class="control-label text-right col-md-3">Upload Licence Image</label>
+                        <div class="col-md-9">
+                          <input type="file" name="limage" class="form-control-file" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="control-label text-right col-md-3">Upload Rc Book</label>
+                        <div class="col-md-9">
+                          <input name="rimage" class="form-control-file" type="file" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="control-label text-right col-md-3">Vehicle No</label>
+                        <div class="col-md-9">
+                          <input name="vno" id="vno" placeholder="Enter Vehicle No" class="form-control" type="text" required>
+                          <p id="error" class="text-danger small" style="display:none;"></p>
+                        </div>
+                    </div>
+
                     <div class="form-group row">
                         <label class="control-label text-right col-md-3">Contact No</label>
                         <div class="col-md-9">
-                          <input name="contact_no" class="form-control" type="text">
+                          <input name="contact_no" placeholder="Enter Contact no" class="form-control" type="text" required>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -150,6 +173,28 @@ s1.setAttribute('crossorigin','*');
 s0.parentNode.insertBefore(s1,s0);
 })();
 </script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        var flag=true;
+        $('#vno').keyup(function(){
+        if(/^[A-Z]{2}\s[0-9]{2}\s[A-Z]{2}\s[0-9]{4}$/.test($('#vno').val()) === false ){
+            $('#error').text('please Enter valid Vehicle no (For Exampe : GJ 01 AA 0101)').show();
+            flag=false;
+        }
+        else{
+            $('#error').hide();
+            flag=true;
+        }
+        });
+        $("form").submit(function(e){
+            if(flag === false){
+                e.preventDefault(e);
+            }
+                
+        });
+    });
+    </script>
+  
 <!--End of Tawk.to Script-->
 </body>
 

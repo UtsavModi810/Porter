@@ -28,6 +28,7 @@
                         <th>Vehicle Name</th>
                         <th>Pick Address</th>
                         <th>Drop Address</th>
+                        <th>Shipping Items</th>
                         <th>Status</th>
                         
                       </tr>
@@ -41,6 +42,7 @@
                         <td>{{ b.vehicle_id.vehicle_name }}</td>
                         <td>{{ b.pick_address }}</td>
                         <td>{{ b.drop_address }}</td>
+                        <td>{{ b.items }}</td>
                         {% if b.track_status == 1 %}
                         <td>Dispatch</td>
                         {% elif b.track_status == 2 %}

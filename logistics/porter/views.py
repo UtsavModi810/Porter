@@ -21,7 +21,30 @@ def home(request):
         customers=Customer.objects.all().count()
         categories=Category.objects.all().count()
         bookings=Booking.objects.all().count()
-        return render(request , 'admin/index.html',{'admin': admin,'customers':customers,'categories':categories,'bookings':bookings})
+        driver=Driver.objects.filter(status=0)
+
+        confirm_driver = request.GET.get('confirm')
+        if confirm_driver:
+            driver_obj = Driver.objects.get(id= confirm_driver)
+            driver_obj.status = True
+            driver_obj.save(update_fields=['status'])
+            email = driver_obj.email
+            mail_subject = "Porter - Confirm Driver Registration"
+            message = "THANK YOU FOR REGISTRATION.\nYou are successfully registered in Porter system."
+            email_from = settings.EMAIL_HOST_USER
+            recipient_list = [email]
+            send_mail(mail_subject, message, email_from, recipient_list)
+        reject_driver = request.GET.get('reject')
+        if reject_driver:
+            driver_obj = Driver.objects.get(id= reject_driver)
+            email = driver_obj.email
+            mail_subject = "Porter - Rejected Driver Registration"
+            message = "Your registration details are not convenient. Therefore, your registration is rejected by the administartion.\nPlease register again with valid details and valid RC book image, License image and Vehicle number.\nThank You "
+            email_from = settings.EMAIL_HOST_USER
+            recipient_list = [email]
+            send_mail(mail_subject, message, email_from, recipient_list)
+            driver_obj.delete()
+        return render(request , 'admin/index.html',{'admin': admin,'customers':customers,'categories':categories,'bookings':bookings,'driver':driver})
     else:
         return redirect('admin_login')
 
@@ -66,15 +89,15 @@ def editprofile_admin(request):
             first_name = request.POST.get('first_name')
             last_name = request.POST.get('last_name')
             address = request.POST.get('address')
-            birth_date = request.POST.get('birth_date')
+           
             contact_no = request.POST.get('contact_no')
 
             admin.first_name = first_name
             admin.last_name  = last_name 
             admin.address = address
-            admin.birth_date  = birth_date 
+            
             admin.contact_no = contact_no
-            admin.save(update_fields=['first_name','last_name','address','birth_date','contact_no'])
+            admin.save(update_fields=['first_name','last_name','address','contact_no'])
             msg = "Your profile is upldated successfully..." 
             request.session['admin_name']=admin.first_name+" "+admin.last_name
 
@@ -369,7 +392,7 @@ def driverhome(request):
 
             email=booking.customer_id.email
             mail_subject = "Porter - Booking Accepted"
-            message = "Our Driver Will Come Within Few Minutes \nDriver Name : "+driver.driver_name + "\nDriver Contact No : "+driver.contact_no + "\nVehicle Name : " + driver.vehicle_id.vehicle_name
+            message = "Our Driver Will Come Within Few Minutes \nDriver Name : "+driver.driver_name + "\nDriver Contact No : "+driver.contact_no + "\nVehicle Name : " + driver.vehicle_id.vehicle_name + "\nVehicle Number : " + driver.vehicle_no
             email_from = settings.EMAIL_HOST_USER
             recipient_list = [email]
             send_mail(mail_subject, message, email_from, recipient_list)
@@ -387,15 +410,22 @@ def driver_login(request):
     else:
         email = request.POST.get('email')
         password = request.POST.get('password')
-        driver = Driver.objects.get(email = email)
         error_msg = None
+        driver = None
+        try:
+            driver = Driver.objects.get(email = email)
+        except:
+            error_msg = "Email or Password invalid !!"
         
         if driver:
            # flag = check_password(password , user.password)
             if password == driver.password:
-                request.session['driver_id'] = driver.id
-                request.session['driver_name'] = driver.driver_name
-                return redirect('driverhome')
+                if driver.status == False:
+                    error_msg = "Your registration is under process. You will get the mail of confirmation from the porter system."
+                else:
+                    request.session['driver_id'] = driver.id
+                    request.session['driver_name'] = driver.driver_name
+                    return redirect('driverhome')
             else:
                 error_msg = 'Email or Password invalid !!'
         else:
@@ -423,12 +453,25 @@ def driver_register(request):
         password = request.POST.get('password')
         contact_no = request.POST.get('contact_no')
         city_id = request.POST.get('citys')
+        vno = request.POST.get('vno') 
+        limage = request.FILES['limage']
+        rimage = request.FILES['rimage']
         vehicle_id = request.POST.get('vehicles')
+        
 
         city_id = City.objects.get(pk = city_id)
         vehicle_id = Vehicle.objects.get(pk = vehicle_id)
-        driver = Driver(driver_name = driver_name, address = address, email = email, password = password, contact_no = contact_no,city_id = city_id,vehicle_id=vehicle_id)
+
+        mail_subject = "Porter - Validate Driver Registration"
+        message = "THANK YOU FOR REGISTRATION.\nWe have successfully received your details. Registration will be confirmed by administrator based on vehicle number, RC and Driving licence."
+        email_from = settings.EMAIL_HOST_USER
+        recipient_list = [email]
+        send_mail(mail_subject, message, email_from, recipient_list)
+
+        driver = Driver(driver_name = driver_name, address = address, email = email, password = password, contact_no = contact_no,city_id = city_id,vehicle_id=vehicle_id,license_image = limage,rc_image=rimage,vehicle_no=vno)
         driver.save()
+
+        
         return redirect('driver_login')
       
 def driver_forget(request):
@@ -490,9 +533,13 @@ def client_login(request):
     else:
         email = request.POST.get('email')
         password = request.POST.get('password')
-        customer = Customer.objects.get(email = email)
         error_msg = None
-        
+        customer = None
+        try:
+            customer = Customer.objects.get(email = email)
+        except:
+            error_msg = 'Email or Password invalid !!'  
+
         if customer:
            # flag = check_password(password , user.password)
             if password == customer.password:
@@ -650,16 +697,13 @@ def bookingclient1(request):
     category_id = listdata[3].split('",')[0][1:]
     vehicle_id = listdata[4].split('",')[0][1:]
     total = listdata[5].split('"')[1]
+    items = listdata[6].split('"')[1]
     date = datetime.datetime.now()
-
-    # print(origin)
-    # print(destination)
-    # print(record)
 
     vehicle = Vehicle.objects.get(id=vehicle_id)
     category=Category.objects.get(id=category_id)
     
-    booking=Booking(pick_address = origin, drop_address = destination,category_id = category, vehicle_id = vehicle, date = date, customer_id = customer,total_amount=float(total))
+    booking=Booking(pick_address = origin, drop_address = destination,category_id = category, vehicle_id = vehicle, date = date, customer_id = customer,total_amount=float(total), items = items)
     booking.save() 
 
     return render(request,'client/home.html')
@@ -681,6 +725,11 @@ def trackorder(request):
         booking=Booking.objects.get(id=booking_id)
 
     return render(request,'client/trackorder.html',{'track_status':booking.track_status,'booking':booking})
+
+def customerbooking(request):
+    driver_id = request.session.get('driver_id')
+    bookings=Booking.objects.all()
+    return render(request,'driver/customerbooking.html',{'bookings':bookings})
 
 
 def managetrackorder(request):
@@ -712,3 +761,4 @@ def managetrackorder(request):
 
 def payment(request):
     return render(request,'client/payment.html')
+

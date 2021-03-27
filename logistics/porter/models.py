@@ -43,15 +43,21 @@ class Enterprise(models.Model):
     email = models.CharField(max_length=100)
     password = models.CharField(max_length=50)
     contact_no = models.CharField(max_length=12)
+    block_status=models.BooleanField(default=False)
 
 class Driver(models.Model):
     driver_name = models.CharField(max_length=50)
     address = models.CharField(max_length=100)
     email = models.CharField(max_length=100)
     password = models.CharField(max_length=50)
+    license_image = models.ImageField(null=True,blank=True)
+    rc_image = models.ImageField(null=True,blank=True)
+    vehicle_no = models.CharField(max_length=50,null=True)
     contact_no = models.CharField(max_length=12)
     city_id = models.ForeignKey(City, on_delete=models.CASCADE)
     vehicle_id = models.ForeignKey(Vehicle, on_delete=models.CASCADE)
+    block_status=models.BooleanField(default=False)
+    status=models.BooleanField(default=False)
     def _str_(self):
         return str(self.id)
 
@@ -67,13 +73,14 @@ class Booking(models.Model):
     date = models.DateField(max_length=50)
     customer_id = models.ForeignKey(Customer, on_delete=models.CASCADE, null=True)
     enterprise_id = models.ForeignKey(Enterprise, on_delete=models.CASCADE, null=True)
-    pick_address=models.CharField(max_length=100)
-    drop_address=models.CharField(max_length=100)
+    pick_address=models.CharField(max_length=500)
+    drop_address=models.CharField(max_length=500)
     category_id = models.ForeignKey(Category, on_delete=models.CASCADE)
     vehicle_id = models.ForeignKey(Vehicle, on_delete=models.CASCADE)
     total_amount =models.PositiveIntegerField(max_length=6)
     status = models.CharField(max_length=50,default='pending')
     track_status = models.PositiveIntegerField(max_length=2,default=0 )
+    items = models.CharField(max_length=500, default='Boxes')
 
 
 class Payment(models.Model):

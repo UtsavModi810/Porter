@@ -17,7 +17,7 @@
     <div class="content">
       <div class="card">
       <div class="card-body">
-      <h4 class="text-black">Enterprise Table</h4>
+      <h4 class="text-black">Driver Table</h4>
       <div class="table-responsive">
                   <table id="example2" class="table table-bordered table-hover" data-name="cool-table">
                     <thead>
@@ -26,10 +26,14 @@
                         <th>Driver Name</th>
                          <th>Address</th>
                         <th>Email</th>
+                        <th>RC Image</th>
+                        <th>License Image</th>
                         <th>Contact no</th>
                         <th>City Name</th>
                         <th>Vehicle Name</th>
-                        
+                        <th>Vehicle Number</th>
+                        <th>Confirmation</th>
+                        <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -39,9 +43,15 @@
                         <td>{{ d.driver_name }}</td>
                         <td>{{ d.address }}</td>
                         <td>{{ d.email }}</td>
+                        <td><img src="{{ d.rc_image.url }}" height="50" width="100"></td>
+                        <td><img src="{{ d.license_image.url }}" height="50" width="100"></td>
                         <td>{{ d.contact_no }}</td>
                         <td>{{ d.city_id.city_name }}</td>
                         <td>{{ d.vehicle_id.vehicle_name }}</td>
+                        <td>{{ d.vehicle_no }}</td>
+                        <td>{{ d.block_status }}</td>
+                        <td>{{ d.status }}</td>
+
                       
                       </tr>
                       {% endfor %}
