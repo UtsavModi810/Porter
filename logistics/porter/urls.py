@@ -23,7 +23,9 @@ urlpatterns = [
     path('updatevehicle/', views.updatevehicle, name='updatevehicle'),
     path('managedriver/', views.managedriver, name='managedriver'),  
     path('managebooking/', views.managebooking, name='managebooking'),  
-    path('trackorderadmin/', views.trackorderadmin, name='trackorderadmin'),  
+    path('trackorderadmin/', views.trackorderadmin, name='trackorderadmin'), 
+    path('manageenterprisebooking/', views.manageenterprisebooking, name='manageenterprisebooking'),  
+    path('enterprisetrackorderadmin/', views.enterprisetrackorderadmin, name='enterprisetrackorderadmin'), 
   
 
     # Driver URLS
@@ -34,7 +36,7 @@ urlpatterns = [
     path('driver_forget/', views.driver_forget, name='driver_forget'),
     path('resetpassworddriver/', views.resetpassworddriver, name='resetpassworddriver'),
     path('managetrackorder/', views.managetrackorder, name='managetrackorder'),
-    path('customerbooking/', views.customerbooking, name='customerbooking'),
+    path('enterprisetrackorder/', views.enterprisetrackorder, name='enterprisetrackorder'),
 
 
      # Client URLS
@@ -52,6 +54,18 @@ urlpatterns = [
     path('bookingdetail/', views.bookingdetail, name='bookingdetail'),
     path('trackorder/', views.trackorder, name='trackorder'),
     path('payment/', views.payment, name='payment'),
+
+
+    #Enterprise Urls
+    path('enterpriselogin/', views.enterpriselogin, name='enterpriselogin'), 
+    path('enterpriseregister/', views.enterpriseregister, name='enterpriseregister'),    
+    path('enterpriselogout/', views.enterpriselogout, name='enterpriselogout'),
+    path('editprofile_enterprise/', views.editprofile_enterprise, name='editprofile_enterprise'),   
+    path('bookingenterprise/', views.bookingenterprise, name='bookingenterprise'),  
+    path('bookingenterprise1/', views.bookingenterprise1, name='bookingenterprise1'),   
+    path('bookingdetailenterprise/', views.bookingdetailenterprise, name='bookingdetailenterprise'),   
+     path('enterprisetrackorder1/', views.enterprisetrackorder1, name='enterprisetrackorder1'),
+
 
 
 

@@ -46,9 +46,15 @@
                                            
                                         </ul>
                                     </div>
+                                    {% if request.session.customer_id %}
                                     <div class="pricing-btn">
                                         <a href="/bookingclient?cat_id={{ cat_id }}&ve_id={{ ve.id }} " class="btn">Book<i class="fas fa-shopping-cart"></i></a>
                                     </div>
+                                    {% elif request.session.enterprise_id %}
+                                    <div class="pricing-btn">
+                                        <a href="/bookingenterprise?ve_id={{ ve.id }} " class="btn">Book<i class="fas fa-shopping-cart"></i></a>
+                                    </div>
+                                    {% endif %}
                                 </div>
                             </div>
                             {% endfor %}

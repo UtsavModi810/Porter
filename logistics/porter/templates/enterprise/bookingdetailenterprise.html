@@ -1,0 +1,83 @@
+{% extends 'client/header.html' %}
+{% load static %}
+{% block content %}
+<!-- header-start-end -->
+
+<!-- main-area -->
+<div class="container">
+    <h1 class="text-center" style="margin-top:180px;">MY BOOKINGS</h1>
+    {% if messages %}
+    {% for message in messages %}
+    {% if message.tags %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endif %}
+
+    {% endfor %}
+
+    {% endif %}
+    <table class="table table-striped mx-auto mt-5">
+        <thead class="thead-dark">
+            <tr>
+                <th>Booking ID</th>
+                <th>PICK ADDRESS</th>
+                <th>DROP ADDRESS</th>
+               
+                <th>VEHICLE NAME</th>
+                <th>DATE</th>
+                <th>TOTAL AMOUNT</th>
+                <th>STATUS</th>
+                <th>PAYMENT</th>
+                <th>TRACK & DETAILS</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            {% for b in bookings %}
+            <tr>
+                <td>{{ b.id }}</td>
+                <td>{{ b.pick_address }}</td>
+                <td>{{ b.drop_address }}</td>
+               
+                <td>{{ b.vehicle_id.vehicle_name }}</td>
+                <td>{{ b.date }}</td>
+                <td>{{ b.total_amount }}</td>
+                {% if b.status == 'accepted' %}
+                <td>
+                    <p class="alert alert-info">{{ b.status }}</p>
+                </td>
+                {% else %}
+                <td>
+                    <p class="alert alert-warning">{{ b.status }}</p>
+                </td>
+                {% endif %}
+
+
+                {% if b.status == 'accepted' %}
+                <td><a href="#" class="btn btn-sm btn-info">Payment</a></td>
+                <td><a href="/enterprisetrackorder1?b_id={{b.id}}" class="btn btn-sm btn-warning">Track & Details</a></td>
+
+                {% else %}
+
+                <td><a href="#" class="btn btn-sm btn-info disabled">Payment</a></td>
+                <td><a href="#" class="btn btn-sm btn-warning disabled">Track & Details</a></td>
+                
+                {% endif %}
+
+
+
+            </tr>
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+</div>
+<!-- main-area-end -->
+
+<!-- footer -->
+{% endblock %}

@@ -46,7 +46,7 @@
       {% csrf_token %}
       {% if error %}
                            
-       <label for="email" class="text-danger">{{error}}</label>
+       <p for="email" class="alert alert-danger">{{error}}</p>
                            
       {% endif %}
       <div class="form-group has-feedback">

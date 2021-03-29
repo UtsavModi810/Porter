@@ -166,6 +166,18 @@ def manageenterprise(request):
     if admin_id:
         admin = Admindetail.objects.get(id = admin_id)
         enterprises=Enterprise.objects.all()
+        block=request.GET.get('block')
+        if block:
+            enterprise = Enterprise.objects.get(id=block)
+            enterprise.block_status = 1
+            enterprise.save(update_fields=['block_status'])
+            if request.session['enterprise_id']:
+                del request.session['enterprise_id']  
+        unblock=request.GET.get('unblock')
+        if unblock:
+            enterprise = Enterprise.objects.get(id=unblock)
+            enterprise.block_status = 0
+            enterprise.save(update_fields=['block_status'])
         
         return render(request,'admin/manageenterprise.html',{ 'enterprises':enterprises })
     else:
@@ -347,9 +359,19 @@ def managebooking(request):
     admin_id = request.session.get('admin_id')
     if admin_id:
         admin = Admindetail.objects.get(id = admin_id)
-        bookings=Booking.objects.all()
+        cbookings=Booking.objects.exclude(customer_id = None)
 
-        return render(request,'admin/managebooking.html',{ 'bookings':bookings })
+        return render(request,'admin/managebooking.html',{ 'cbookings':cbookings })
+    else:
+        return redirect('admin_login')
+
+def manageenterprisebooking(request):
+    admin_id = request.session.get('admin_id')
+    if admin_id:
+        admin = Admindetail.objects.get(id = admin_id)
+        ebookings=Booking.objects.exclude(enterprise_id = None)
+
+        return render(request,'admin/manageenterprisebooking.html',{ 'ebookings':ebookings })
     else:
         return redirect('admin_login')
 
@@ -357,9 +379,19 @@ def trackorderadmin(request):
     admin_id = request.session.get('admin_id')
     if admin_id:
         admin = Admindetail.objects.get(id = admin_id)
-        bookings=Booking.objects.all()
+        cbookings=Booking.objects.exclude(customer_id = None)
 
-        return render(request,'admin/trackorder.html',{ 'bookings':bookings })
+        return render(request,'admin/trackorder.html',{ 'cbookings':cbookings })
+    else:
+        return redirect('admin_login')
+    
+def enterprisetrackorderadmin(request):
+    admin_id = request.session.get('admin_id')
+    if admin_id:
+        admin = Admindetail.objects.get(id = admin_id)
+        ebookings=Booking.objects.exclude(enterprise_id = None)
+
+        return render(request,'admin/enterprisetrackorder.html',{ 'ebookings':ebookings })
     else:
         return redirect('admin_login')
 
@@ -369,6 +401,18 @@ def managedriver(request):
     if admin_id:
         admin = Admindetail.objects.get(id = admin_id)
         drivers=Driver.objects.all()
+        block=request.GET.get('block')
+        if block:
+            driver = Driver.objects.get(id=block)
+            driver.block_status = 1
+            driver.save(update_fields=['block_status'])
+            if 'driver_id' in request.session:
+                del request.session['driver_id']  
+        unblock=request.GET.get('unblock')
+        if unblock:
+            driver = Driver.objects.get(id=unblock)
+            driver.block_status = 0
+            driver.save(update_fields=['block_status'])
 
         return render(request,'admin/managedriver.html',{ 'drivers':drivers })
     else:
@@ -379,7 +423,8 @@ def driverhome(request):
     driver_id = request.session.get('driver_id')
     if driver_id:
         driver = Driver.objects.get(id = driver_id)
-        bookings=Booking.objects.all()
+        cbookings=Booking.objects.exclude(customer_id = None)
+        ebookings=Booking.objects.exclude(enterprise_id = None)
         status=['pending','accepted','rejected']
         b_id=request.GET.get('b_id')
         if b_id:
@@ -399,7 +444,26 @@ def driverhome(request):
 
             messages.success(request, 'Your Booking is Accepted By Driver Check Mail For More Information')
 
-        return render(request , 'driver/index.html',{'driver': driver,'bookings':bookings,'status':status})
+        be_id=request.GET.get('be_id')
+        if be_id:
+            booking=Booking.objects.get(id=be_id)
+            booking.status=status[1]
+            booking.driver_id = driver
+            booking.save(update_fields=['status','driver_id'])
+
+
+
+            email=booking.enterprise_id.email
+            mail_subject = "Porter - Booking Accepted"
+            message = "Our Driver Will Come Within Few Minutes \nDriver Name : "+driver.driver_name + "\nDriver Contact No : "+driver.contact_no + "\nVehicle Name : " + driver.vehicle_id.vehicle_name + "\nVehicle Number : " + driver.vehicle_no
+            email_from = settings.EMAIL_HOST_USER
+            recipient_list = [email]
+            send_mail(mail_subject, message, email_from, recipient_list)
+
+            messages.success(request, 'Your Booking is Accepted By Driver Check Mail For More Information')
+
+
+        return render(request , 'driver/index.html',{'driver': driver,'cbookings':cbookings,'ebookings':ebookings,'status':status})
 
     else:
         return redirect('driver_login')
@@ -423,9 +487,13 @@ def driver_login(request):
                 if driver.status == False:
                     error_msg = "Your registration is under process. You will get the mail of confirmation from the porter system."
                 else:
-                    request.session['driver_id'] = driver.id
-                    request.session['driver_name'] = driver.driver_name
-                    return redirect('driverhome')
+                    if driver.block_status==1:
+                        error_msg="your are blocked by administrater "
+                    else:
+                        
+                        request.session['driver_id'] = driver.id
+                        request.session['driver_name'] = driver.driver_name
+                        return redirect('driverhome')
             else:
                 error_msg = 'Email or Password invalid !!'
         else:
@@ -646,7 +714,7 @@ def editprofile_client(request):
             msg = "Your profile is upldated successfully..." 
             
 
-            return render(request,'client/editprofile.html',{'customer':customer,'msg':msg})
+            return render(request,'client/editprofile.html',{'customer':customer,'citys':citys,'msg':msg})
 
 def categoryclient(request):
     category=Category.objects.all()
@@ -726,16 +794,39 @@ def trackorder(request):
 
     return render(request,'client/trackorder.html',{'track_status':booking.track_status,'booking':booking})
 
-def customerbooking(request):
-    driver_id = request.session.get('driver_id')
-    bookings=Booking.objects.all()
-    return render(request,'driver/customerbooking.html',{'bookings':bookings})
+
 
 
 def managetrackorder(request):
     driver_id = request.session.get('driver_id')
     if driver_id:
-        bookings=Booking.objects.filter(driver_id=driver_id)
+        bookings=Booking.objects.filter(driver_id=driver_id).filter(enterprise_id = None)
+        # all_status = []
+        # for b in bookings:
+        #     try:
+        #         status = TrackDetails.objects.get(booking_id=b.id)
+        #     except:
+        #         pass  
+        #     if status.track_status == 1:
+        #         all_status.append('shipped')
+        #     elif status..track_status == 2:
+        #         all_status.append('out for delivery')
+        #     elif status.track_status == 3:
+        #         all_status.append('Delivery Successfully')
+        if request.method == 'POST':
+            booking_id = request.POST.get('booking_id')
+            trackvalue = request.POST.get('trackvalue')
+            booking = Booking.objects.get(id = booking_id)
+            booking.track_status += int(trackvalue)
+            booking.save(update_fields=['track_status'])
+            
+
+        return render(request,'driver/managetrackorder.html',{'bookings':bookings})
+
+def enterprisetrackorder(request):
+    driver_id = request.session.get('driver_id')
+    if driver_id:
+        bookings=Booking.objects.filter(driver_id=driver_id).filter(customer_id = None)
         # all_status = []
         # for b in bookings:
         #     try:
@@ -762,3 +853,148 @@ def managetrackorder(request):
 def payment(request):
     return render(request,'client/payment.html')
 
+
+
+
+def enterpriselogin(request):
+    if request.method == 'GET':
+       return render(request, 'enterprise/enterpriselogin.html')
+    else:
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        error_msg = None
+        enterprise = None
+        try:
+            enterprise = Enterprise.objects.get(email = email)
+        except:
+            error_msg = 'Email or Password invalid !!'  
+
+        if enterprise:
+           # flag = check_password(password , user.password)
+            if password == enterprise.password:
+                if enterprise.block_status==1:
+                    error_msg="your are block by administrater "
+                else:
+                    request.session['enterprise_id'] = enterprise.id
+                    return redirect('client_home')
+                
+            else:
+                error_msg = 'Email or Password invalid !!'
+        else:
+            error_msg = 'Email or Password invalid !!'
+            
+        return render(request , 'enterprise/enterpriselogin.html', {'error' : error_msg} )
+
+
+def enterpriseregister(request):
+    citys = City.objects.all()
+    if request.method == 'GET':
+        return render(request, 'enterprise/enterpriseregister.html',{ 'citys':citys })
+    else:
+        person_name = request.POST.get('pname')
+        company_name = request.POST.get('cname')
+        address = request.POST.get('address')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        contact_no = request.POST.get('contact')
+        city_id = request.POST.get('citys')
+      
+
+        city_id = City.objects.get(pk = city_id)
+        enterprise = Enterprise(person_name = person_name, company_name = company_name,address = address, email = email, password = password, contact_no = contact_no,city_id = city_id)
+        enterprise.save()
+        return redirect('enterpriselogin')
+
+    return render(request,"enterprise/enterpriseregister.html")
+
+def enterpriselogout(request):
+    if request.session['enterprise_id']:
+        del request.session['enterprise_id']  
+    return redirect('enterpriselogin')
+
+
+def editprofile_enterprise(request): 
+    enterprise_id = request.session.get('enterprise_id')
+    if enterprise_id:
+        enterprise = Enterprise.objects.get(id = enterprise_id)
+        citys=City.objects.all()
+
+        if request.method == 'GET':
+            msg = None
+            return render(request , 'enterprise/editprofile_enterprise.html',{'enterprise':enterprise,'citys':citys,'msg':msg})
+        else:
+            person_name = request.POST.get('pname')
+            company_name = request.POST.get('cname')
+            address = request.POST.get('address')
+            contact_no = request.POST.get('contact')
+            city=request.POST.get('citys')
+
+
+            enterprise.person_name = person_name
+            enterprise.company_name  = company_name 
+            enterprise.address = address
+            enterprise.contact_no = contact_no
+            enterprise.city_id = City.objects.get(id=city)
+           
+            enterprise.save(update_fields=['person_name','company_name','address','contact_no','city_id'])
+            msg = "Your profile is upldated successfully..." 
+            
+
+            return render(request,'enterprise/editprofile_enterprise.html',{'enterprise':enterprise,'citys':citys,'msg':msg})
+
+def bookingenterprise(request):
+    enterprise_id = request.session.get('enterprise_id')
+    if enterprise_id:
+        enterprise = Enterprise.objects.get(id = enterprise_id)
+
+        if request.method=='GET':
+            print("Entered-----------------")
+            vehicle_id=request.GET.get('ve_id')
+            global vehicle
+            vehicle = Vehicle.objects.get(id=vehicle_id)
+
+            return render(request,'enterprise/bookingenterprise.html',{'vehicle_price':json.dumps(vehicle.price),'vehicle':vehicle})
+    else:
+        return redirect('enterpriselogin')
+
+def bookingenterprise1(request):
+    enterprise_id = request.session.get('enterprise_id')
+    if enterprise_id:
+        enterprise = Enterprise.objects.get(id = enterprise_id)
+    record=""
+
+    for i in dict(request.GET).keys():
+        record=i
+    listdata = record.split(":")
+
+    origin = listdata[1].split('",')[0][1:]
+    destination = listdata[2].split('",')[0][1:]
+    vehicle_id = listdata[3].split('",')[0][1:]
+    total = listdata[4].split('"')[1]
+    items = listdata[5].split('"')[1]
+    date = datetime.datetime.now()
+
+    vehicle = Vehicle.objects.get(id=vehicle_id)
+    
+    booking=Booking(pick_address = origin, drop_address = destination, vehicle_id = vehicle, date = date, enterprise_id = enterprise,total_amount=float(total), items = items)
+    booking.save() 
+
+    return render(request,'client/home.html')
+
+
+def bookingdetailenterprise(request):
+    enterprise_id = request.session.get('enterprise_id')
+    if enterprise_id:
+
+        bookings=Booking.objects.filter(enterprise_id=enterprise_id)
+        return render(request,'enterprise/bookingdetailenterprise.html',{'bookings':bookings})
+    else:
+        return redirect('enterpriselogin')
+
+
+def enterprisetrackorder1(request):
+    booking_id=request.GET.get('b_id')
+    if booking_id:
+        booking=Booking.objects.get(id=booking_id)
+
+    return render(request,'client/trackorder.html',{'track_status':booking.track_status,'booking':booking})

@@ -23,7 +23,7 @@
                     <thead>
                       <tr>
                         <th>ID</th>
-                        <th>Customer Name</th>
+                        <th>Enterprise Name</th>
                         <th>Driver Name</th>
                         <th>Vehicle Name</th>
                         <th>Pick Address</th>
@@ -34,10 +34,10 @@
                       </tr>
                     </thead>
                     <tbody>
-                    {% for b in cbookings %}
+                    {% for b in ebookings %}
                       <tr>
                         <td>{{ b.id }}</td>
-                        <td>{{ b.customer_id.first_name }}</td>
+                        <td>{{ b.enterprise_id.person_name }}</td>
                         <td>{{ b.driver_id.driver_name }}</td>
                         <td>{{ b.vehicle_id.vehicle_name }}</td>
                         <td>{{ b.pick_address }}</td>

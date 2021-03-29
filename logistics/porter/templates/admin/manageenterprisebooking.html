@@ -17,43 +17,38 @@
     <div class="content">
       <div class="card">
       <div class="card-body">
-      <h4 class="text-black">Track Order Table</h4>
+      <h4 class="text-black">Enterprise Booking Detail Table</h4>
       <div class="table-responsive">
                   <table id="example2" class="table table-bordered table-hover" data-name="cool-table">
                     <thead>
                       <tr>
                         <th>ID</th>
-                        <th>Customer Name</th>
+                        <th>Enterprise Name</th>
                         <th>Driver Name</th>
+                       
                         <th>Vehicle Name</th>
                         <th>Pick Address</th>
                         <th>Drop Address</th>
                         <th>Shipping Items</th>
+                        <th>Total Amount</th>
                         <th>Status</th>
                         
                       </tr>
                     </thead>
                     <tbody>
-                    {% for b in cbookings %}
+                    {% for b in ebookings %}
                       <tr>
                         <td>{{ b.id }}</td>
-                        <td>{{ b.customer_id.first_name }}</td>
+                        <td>{{ b.enterprise_id.person_name }}</td>
                         <td>{{ b.driver_id.driver_name }}</td>
+                       
                         <td>{{ b.vehicle_id.vehicle_name }}</td>
                         <td>{{ b.pick_address }}</td>
                         <td>{{ b.drop_address }}</td>
                         <td>{{ b.items }}</td>
-                        {% if b.track_status == 1 %}
-                        <td>Dispatch</td>
-                        {% elif b.track_status == 2 %}
-                        <td>Shipped</td>
-                        {% elif b.track_status == 3 %}
-                        <td>Out For Delivery</td>
-                        {% elif b.track_status == 4 %}
-                        <td>Delivered Successfully</td>
-                        {% else %}
-                        <td>NOT STARTED TRACK ORDER</td>
-                        {% endif %}
+                        <td>{{ b.total_amount }}</td>
+                        <td>{{ b.status }}</td>
+                      
                       </tr>
                       {% endfor %}
                     </tbody>  

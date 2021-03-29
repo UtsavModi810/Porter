@@ -101,7 +101,9 @@
                                             <li class="active"><a href="/client_home">Home</a>
                                             
                                             </li>
+                                            {% if request.session.customer_id %}
                                             <li><a href="/categoryclient">Category</a></li>
+                                            {% endif %}
                                             <li><a href="/vehicleclient">Vehicle</a></li>
                                             <!-- <li><a href="#">Pages</a>
                                                 <ul class="submenu">
@@ -126,7 +128,7 @@
                                             </li> -->
                                             {% if request.session.customer_id %}
                                             <li><a href="/bookingdetail">My Bookings</a></li>
-                                            <li><a href="#menu">My Account</a>
+                                            <li><a href="#menu">Customer Account</a>
                                                 
                                                 <ul class="submenu" id="menu ">
                                                     <li><a href="/editprofile_client">Edit Profile</a></li>
@@ -134,14 +136,33 @@
                                                    
                                                 </ul>
                                             </li>
+                                            {% elif request.session.enterprise_id %}
+                                            <li><a href="/bookingdetailenterprise">My Bookings</a></li>
+                                            <li><a href="#menu">Enterprise Account</a>
+                                                
+                                                <ul class="submenu" id="menu ">
+                                                    <li><a href="/editprofile_enterprise">Edit Profile</a></li>
+                                                    <li><a href="/enterpriselogout">Logout</a></li>
+                                                   
+                                                </ul>
+                                            </li>
                                             {% else %}
-                                            <li><a href="#menu">Login/Register</a>
+                                            <li><a href="#menu">Customer</a>
                                                 <ul class="submenu" id="menu ">
                                                     <li><a href="/client_login">Login</a></li>
                                                     <li><a href="/client_register">Register</a></li>
                                                 </ul>
                                             </li>
+                                            <li><a href="#menu">Enterprise</a>
+                                                <ul class="submenu" id="menu ">
+                                                    <li><a href="/enterpriselogin">Login</a></li>
+                                                    <li><a href="/enterpriseregister">Register</a></li>
+                                                </ul>
+                                            </li>
+                                            
                                             {% endif %}
+
+
                                         </ul>
                                     </nav>
                                 </div>

@@ -43,6 +43,7 @@ class Enterprise(models.Model):
     email = models.CharField(max_length=100)
     password = models.CharField(max_length=50)
     contact_no = models.CharField(max_length=12)
+    city_id = models.ForeignKey(City, on_delete=models.CASCADE)
     block_status=models.BooleanField(default=False)
 
 class Driver(models.Model):
@@ -75,7 +76,7 @@ class Booking(models.Model):
     enterprise_id = models.ForeignKey(Enterprise, on_delete=models.CASCADE, null=True)
     pick_address=models.CharField(max_length=500)
     drop_address=models.CharField(max_length=500)
-    category_id = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category_id = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)
     vehicle_id = models.ForeignKey(Vehicle, on_delete=models.CASCADE)
     total_amount =models.PositiveIntegerField(max_length=6)
     status = models.CharField(max_length=50,default='pending')

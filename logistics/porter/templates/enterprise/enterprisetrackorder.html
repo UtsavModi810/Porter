@@ -1,0 +1,147 @@
+{% extends 'client/header.html' %}
+{% load static %}
+{% block content %}
+        <!-- header-start-end -->
+
+        <!-- main-area -->
+        <main>
+
+            <!-- breadcrumb-area -->
+
+            <!-- breadcrumb-area-end -->
+
+            <!-- category-area -->
+         
+            <!-- category-area-end -->
+
+            <!-- tracking-area -->
+            <div class="tracking-area pt-95 pb-115">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-xl-8 col-lg-10">
+                            <div class="tracking-id-info text-center">
+                                
+                                <br/>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <h2>Track Order</h2>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <div class="tracking-list">
+                                    {% if track_status == 4 %}
+                                    <p class="alert alert-success display-4 py-5">Successfully Delivered</p>
+                                    {% else %}
+                                    <ul>
+                                        {% if track_status > 0  %}
+                                        <li class="active">
+                                        {% else %}
+                                        <li>
+                                        {% endif %}
+                                            <div class="tracking-list-icon">
+                                                <i class="flaticon-box"></i>
+                                            </div>
+                                            <div class="tracking-list-content">
+                                                <p>Dispatch</p>
+                                            </div>
+                                            
+                                        </li>
+                                      
+                                        
+                                        {% if track_status > 1  %}
+                                        <li class="active">
+                                        {% else %}
+                                        <li>
+                                        {% endif %}
+                                            <div class="tracking-list-icon">
+                                                <i class="flaticon-warehouse"></i>
+                                            </div>
+                                            <div class="tracking-list-content">
+                                                <p>Shipped</p>
+                                            </div>
+                                        </li>
+
+
+                                        {% if track_status > 2  %}
+                                        <li class="active">
+                                        {% else %}
+                                        <li>
+                                        {% endif %}
+                                            <div class="tracking-list-icon">
+                                                <i class="flaticon-placeholder"></i>
+                                            </div>
+                                            <div class="tracking-list-content">
+                                                <p>Out For Delivery</p>
+                                            </div>
+                                        </li>
+
+
+                                        {% if track_status > 3  %}
+                                        <li class="active">
+                                        {% else %}
+                                        <li>
+                                        {% endif %}
+                                            <div class="tracking-list-icon">
+                                                <i class="flaticon-audit"></i>
+                                            </div>
+                                            <div class="tracking-list-content">
+                                                <p>Delivery Successful</p>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    {% endif %}
+                                </div>
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- tracking-area-end -->
+
+            <!-- services-area -->
+            <section class="services-area delivery-bg inner-help-bg pt-110 pb-70">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-xl-7 col-lg-10">
+                            <div class="s-section-title text-center mb-60">
+                                <h2>Booking Detail</h2>
+                               
+                            </div>
+                        </div>
+                    </div>
+                    <div class="services-wrapper">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-6 mx-auto">
+                                <div class="s-single-services mb-50">
+                                    <div class="services-thumb mb-25">
+                                        <a href="/bookingdetailenterprise"><img src="{{ booking.vehicle_id.image.url }}" height="250" width="100" alt="img"></a>
+                                    </div>
+                                    <div class="s-services-content">
+                                        <h6>Vehicle Name :{{ booking.vehicle_id.vehicle_name }}</h6>
+                                       
+                                        <p><b>Pick Address :</b>{{ booking.pick_address }}</p>
+                                        <p><b>Drop Address :</b>{{ booking.drop_address }}</p>
+                                        <p><b> Shipping Items :</b> {{ booking.items }}</p>
+                                        <a href="/bookingdetailenterprise" class="btn red-btn">View</a>
+                                    </div>
+                                </div>
+                            </div>
+                          
+                       
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- services-area-end -->
+
+        </main>
+        <!-- main-area-end -->
+
+        <!-- footer -->
+    
+{% endblock %}

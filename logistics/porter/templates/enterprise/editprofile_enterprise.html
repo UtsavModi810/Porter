@@ -16,7 +16,7 @@
                     <div class="row justify-content-center">
                         <div class="col-xl-7 col-lg-10">
                             <div class="s-section-title text-center mb-60">
-                                <h2>Customer Edit Profile</h2>
+                                <h2>Enterprise Edit Profile</h2>
                                
                             </div>
                         </div>
@@ -30,18 +30,18 @@
                                    <p class="alert alert-success m-2">{{ msg }}</p>
                                        {% endif %}
                                     <div class="col-md-6 mx-auto text-left">
-                                        <label class="font-weight-bold h5">First Name</label>
-                                        <input type="text" value="{{ customer.first_name }}" name="fname" placeholder="Enter First Name" required>
+                                        <label class="font-weight-bold h5">Person Name</label>
+                                        <input type="text" value="{{ enterprise.person_name }}" name="pname" placeholder="Enter Person Name" required>
                                     </div>
                                     <br/>
                                     <div class="col-md-6 mx-auto text-left">
-                                        <label class="font-weight-bold h5">Last Name</label>
-                                        <input type="text" value="{{ customer.last_name }}" name="lname" placeholder="Enter Last Name" required>
+                                        <label class="font-weight-bold h5">Comapny Name</label>
+                                        <input type="text" value="{{ enterprise.company_name }}" name="cname" placeholder="Enter Last Name" required>
                                     </div>
                                     <br/>
                                     <div class="col-md-6 mx-auto text-left">
                                         <label class="font-weight-bold h5">Address</label>
-                                        <input type="text" value="{{ customer.address }}" name="address" placeholder="Enter Address" required>
+                                        <input type="text" value="{{ enterprise.address }}" name="address" placeholder="Enter Address" required>
                                     </div>
                                     <br/>
                                        
@@ -50,7 +50,7 @@
                                         
                                         <div class="col-md-6 mx-auto text-left">
                                             <label class="font-weight-bold h5">Contact No</label>
-                                            <input type="tel" value="{{ customer.contact_no }}" name="contact" placeholder="Enter Contact No" required>
+                                            <input type="tel" value="{{ enterprise.contact_no }}" name="contact" placeholder="Enter Contact No" required>
                                         </div>
                                       
                                         <br/>

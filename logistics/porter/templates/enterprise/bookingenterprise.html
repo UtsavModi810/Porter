@@ -1,0 +1,154 @@
+{% extends 'client/header.html' %}
+{% load static %}
+{% block content %}
+
+
+<!-- header-start-end -->
+
+<!-- main-area -->
+<main>
+
+    <!-- breadcrumb-area -->
+
+    <!-- breadcrumb-area-end -->
+
+    <!-- support-area -->
+    <div class="support-area support-bg pt-110 pb-120">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-7 col-lg-10">
+                    <div class="s-section-title text-center mb-60">
+                        <h2>Enterprise Booking</h2>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="support-form text-center">
+                        <form method="GET" action="/bookingclient" id="distance_form">
+                            {% csrf_token %}
+
+
+                            <div class="col-md-6 mx-auto text-left">
+                                <label class="font-weight-bold h5">Pick Address</label>
+                                <input id="from_places" name="from_places" type="text" placeholder="Pick Address">
+                                <input id="origin" name="origin" type="hidden" required />
+                            </div>
+                            <br />
+                            <div class="col-md-6 mx-auto text-left">
+                                <label class="font-weight-bold h5">Drop Address</label>
+                                <input id="to_places" type="text" placeholder="Drop Address">
+                                <input id="destination" type="hidden" name="destination" required />
+                            </div>
+
+                            <div id="result" hidden>
+                                <ul class="list-group">
+                                    <li id="distance_in_mile"
+                                        class="list-group-item d-flex justify-content-between align-items-center">
+                                        Distance In Mile : </li>
+                                    <li id="distance_in_kilometer"
+                                        class="list-group-item d-flex justify-content-between align-items-center">
+                                        Distance is Kilo : </li>
+                                    <li id="distance_in_minutes"
+                                        class="list-group-item d-flex justify-content-between align-items-center">IN
+                                        TEXT : </li>
+                                    <!-- <li id="distance_in_text" class="list-group-item d-flex justify-content-between align-items-center">IN MINUTES:</li> -->
+                                    <li id="from_location"
+                                        class="list-group-item d-flex justify-content-between align-items-center">FROM :
+                                    </li>
+                                    <li id="to_loaction"
+                                        class="list-group-item d-flex justify-content-between align-items-center">TO :
+                                    </li>
+                                </ul>
+                            </div>
+
+
+                            <br />
+                            <button class="btn red-btn" onclick="calculate_total()" value="Calculate">Calculate</button>
+
+                            <br />
+                            <br />
+
+                            <div class="col-md-6 mx-auto text-left">
+                                <label class="font-weight-bold h5">Vehicle Name</label>
+                                <input type="text" name="v_name" id="v_name" value="{{ vehicle.id }}" hidden readonly>
+                                <input type="text" name="demo1" id="cat1" value="{{ vehicle.vehicle_name }}" readonly>
+                            </div>
+                            <div class="col-md-6 mx-auto text-left">
+                                <label class="font-weight-bold h5">Shipping Items</label>
+                                <input type="text" name="s_items" id="s_items" placeholder="Enter shipping items" >
+                            </div>
+                            <br />
+
+                            <br />
+                            <div class="col-md-6 mx-auto text-left">
+                                <label class="font-weight-bold h5">Total Amount</label>
+                                <label class="font-weight-bold h5" id="total_amount"></label>
+                                <input type="text" name="total" id="total" hidden />
+                            </div>
+
+                            <br />
+                            <br />
+
+                            <button class="btn red-btn" id="btn_submit" name="submit" type="submit"
+                                value="book">BOOK</button>
+
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- support-area-end -->
+
+    <!-- contact-area -->
+
+    <!-- contact-area-end -->
+
+    <!-- contact-map -->
+
+    <!-- contact-map-end -->
+
+</main>
+<!-- main-area-end -->
+
+<!-- footer -->
+<script type="text/javascript">
+    function calculate_total() {
+
+        setTimeout(function () {
+            var distance = document.getElementById('distance_in_kilometer').innerHTML;
+            console.log(distance);
+            var price = JSON.parse("{{ vehicle_price|escapejs}}");
+            var total = price * parseFloat(distance.split(" ")[0]);
+            $('#total_amount').html(" ₹ " + total);
+            console.log(total)
+            document.getElementById('total').value = total;
+        }, 1000);
+    }
+
+    $("#btn_submit").click(function (e) {
+        e.preventDefault()
+        var host=(window.location).origin
+        $.ajax({
+            "url": host + "/bookingenterprise1",
+            "method": "GET",
+            "timeout": 0,
+            "headers": { "Content-Type": "application/json" },
+            "data": JSON.stringify({ 'origin': $("#origin").val(),'destination': $("#destination").val(),'v_name': $("#v_name").val(),'total': $("#total").val(), 'items': $("#s_items").val()}),
+            success: function (response) {
+                    document.location.href = "{% url 'bookingdetailenterprise' %}";
+                    console.log($("#origin").val());
+                    console.log($("#destination").val());
+            },
+            error: function (errorThrown) {
+                console.log(errorThrown.responseText)
+            },
+        });
+    })
+</script>
+
+
+{% endblock %}

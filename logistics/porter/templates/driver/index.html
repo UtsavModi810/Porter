@@ -36,7 +36,7 @@
             </tr>
           </thead>
           <tbody>
-            {% for b in bookings %}
+            {% for b in cbookings %}
             <tr>
               <td>{{ b.id }}</td>
               <td>{{ b.pick_address }}</td>
@@ -48,6 +48,54 @@
               {% if b.status == status.0 %}
               <td>
                 <a href="/driverhome?b_id={{ b.id }}" class="btn btn-sm btn-success text-white">Accept</a>
+              </td>
+              {% else %}
+              <td>
+                <a class="btn btn-sm btn-success text-white disabled" >Accepted</a>
+              </td>
+              {% endif %}
+
+            </tr>
+            {% endfor %}
+
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="card m-t-3">
+    <div class="card-body">
+      <h4 class="text-black">Enterprise Booking Table</h4>
+
+      <div class="table-responsive">
+        <table id="example1" class="table table-bordered table-striped">
+
+          <thead>
+           
+            <tr>
+              <th>Booking Id</th>
+              <th>Pick Address</th>
+              <th>Drop Address</th>
+           
+              <th>Vehicle</th>
+              <th>Total Amount</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for b in ebookings %}
+            <tr>
+              <td>{{ b.id }}</td>
+              <td>{{ b.pick_address }}</td>
+              <td>{{ b.drop_address }}</td>
+            
+              <td>{{ b.vehicle_id.vehicle_name }}</td>
+              <td>{{ b.total_amount }}</td>
+
+              {% if b.status == status.0 %}
+              <td>
+                <a href="/driverhome?be_id={{ b.id }}" class="btn btn-sm btn-success text-white">Accept</a>
               </td>
               {% else %}
               <td>
