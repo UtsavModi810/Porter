@@ -29,7 +29,8 @@
                         <th>Pick Address</th>
                         <th>Drop Address</th>
                         <th>Shipping Items</th>
-                        <th>Status</th>
+                        <th>Track Status</th>
+                        <th>payment</th>
                         
                       </tr>
                     </thead>
@@ -54,8 +55,19 @@
                         {% else %}
                         <td>NOT STARTED TRACK ORDER</td>
                         {% endif %}
+
+
+                        <td>
+                          {% if b.payment_status == 0 %}
+                              <p class="alert alert-danger">Not Paid</p> 
+                          {% else %}
+                              <p class="alert alert-success">Payment Successfully</p> 
+                          {% endif %}
+                      </td>
                       </tr>
                       {% endfor %}
+
+                     
                     </tbody>  
                   </table>
                   </div>

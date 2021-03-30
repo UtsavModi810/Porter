@@ -82,12 +82,8 @@ class Booking(models.Model):
     status = models.CharField(max_length=50,default='pending')
     track_status = models.PositiveIntegerField(max_length=2,default=0 )
     items = models.CharField(max_length=500, default='Boxes')
-
-
-class Payment(models.Model):
     payment_status=models.BooleanField(default=False)
-    payment_type=models.CharField(max_length=10)
-    booking_id = models.ForeignKey(Booking, on_delete=models.CASCADE)
+
 
 class Admindetail(models.Model):
     first_name = models.CharField(max_length=50)

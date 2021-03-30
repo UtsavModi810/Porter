@@ -58,8 +58,31 @@
 
 
                 {% if b.status == 'accepted' %}
-                <td><a href="#" class="btn btn-sm btn-info">Payment</a></td>
-                <td><a href="/trackorder?b_id={{b.id}}" class="btn btn-sm btn-warning">Track & Details</a></td>
+                
+                <td>
+                    {% if b.payment_status == 0 %}
+                        <p class="alert alert-danger">Not Paid</p> 
+                    {% else %}
+                        <p class="alert alert-success">Payment Successfully</p> 
+                    {% endif %}
+                </td>
+                <td>
+                    
+                    {% if b.payment_status == 0 %}
+                       
+                        <a href="#" class="btn btn-sm btn-warning disabled">Track & Details</a>
+                    {% else %}
+                        {% if b.track_status > 3 %}
+                            <p class="alert alert-success">Succesful Delivered</p> 
+                        {% else %}
+                            <a href="/trackorder?b_id={{b.id}}" class="btn btn-sm btn-warning">Track & Details</a>
+                        {% endif %} 
+                    {% endif %}
+
+                   
+                
+                
+                </td>
 
                 {% else %}
 

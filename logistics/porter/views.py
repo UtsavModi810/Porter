@@ -815,11 +815,25 @@ def managetrackorder(request):
         #         all_status.append('Delivery Successfully')
         if request.method == 'POST':
             booking_id = request.POST.get('booking_id')
-            trackvalue = request.POST.get('trackvalue')
-            booking = Booking.objects.get(id = booking_id)
-            booking.track_status += int(trackvalue)
-            booking.save(update_fields=['track_status'])
+            if booking_id:
+
+                trackvalue = request.POST.get('trackvalue')
+                booking = Booking.objects.get(id = booking_id)
+                if booking.track_status == 0:
+                    email = booking.customer_id.email
+                    mail_subject = "Porter - Order Dispatched"
+                    message = "Your order is dispatched. Please make payment ready of amount ₹ "+ str(booking.total_amount) + "\nOur driver will receive payment from you.\nDelivery will start only after payment received"
+                    email_from = settings.EMAIL_HOST_USER
+                    recipient_list = [email]
+                    send_mail(mail_subject, message, email_from, recipient_list)
+                booking.track_status += int(trackvalue)
+                booking.save(update_fields=['track_status'])
             
+            b_id = request.POST.get('payment')
+            if b_id:
+                booking = Booking.objects.get(id = b_id)
+                booking.payment_status = True
+                booking.save(update_fields=['payment_status'])
 
         return render(request,'driver/managetrackorder.html',{'bookings':bookings})
 
@@ -841,11 +855,26 @@ def enterprisetrackorder(request):
         #         all_status.append('Delivery Successfully')
         if request.method == 'POST':
             booking_id = request.POST.get('booking_id')
-            trackvalue = request.POST.get('trackvalue')
-            booking = Booking.objects.get(id = booking_id)
-            booking.track_status += int(trackvalue)
-            booking.save(update_fields=['track_status'])
-            
+            if booking_id:
+
+                trackvalue = request.POST.get('trackvalue')
+                booking = Booking.objects.get(id = booking_id)
+                if booking.track_status == 0:
+                    email = booking.enterprise_id.email
+                    mail_subject = "Porter - Order Dispatched"
+                    message = "Your order is dispatched. Please make payment ready of amount ₹ "+ str(booking.total_amount) + "\nOur driver will receive payment from you.\nDelivery will start only after payment received"
+                    email_from = settings.EMAIL_HOST_USER
+                    recipient_list = [email]
+                    send_mail(mail_subject, message, email_from, recipient_list)
+                booking.track_status += int(trackvalue)
+                booking.save(update_fields=['track_status'])
+        
+        b_id = request.POST.get('payment')
+        if b_id:
+            booking = Booking.objects.get(id = b_id)
+            booking.payment_status = True
+            booking.save(update_fields=['payment_status'])
+        
 
         return render(request,'driver/managetrackorder.html',{'bookings':bookings})
 

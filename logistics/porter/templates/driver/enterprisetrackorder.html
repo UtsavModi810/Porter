@@ -84,6 +84,19 @@
                           </div>
                         </div>
                       </form>
+                      {% if b.payment_status == 0 %}
+                    <td>
+                      <form method="POST">
+                        {% csrf_token %}
+                        <input type="number" value="{{ b.id }}" name="payment" hidden/>
+                        <button type="submit" class="btn btn-warning">Not Paid</button>
+                      </form>
+                    </td>
+                    {% else %}
+                    <td>
+                      <p class="alert alert-success">Received Payment</p>
+                    </td>
+                    {% endif %}
                   </td>
 
                  
