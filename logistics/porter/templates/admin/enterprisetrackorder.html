@@ -18,8 +18,9 @@
       <div class="card">
       <div class="card-body">
       <h4 class="text-black">Track Order Table</h4>
+      <input type="button" class="btn btn-accent" style="background:#0077d3" onclick="generate()" value="Export" />
       <div class="table-responsive">
-                  <table id="example2" class="table table-bordered table-hover" data-name="cool-table">
+                  <table id="table" class="table table-bordered table-hover" data-name="cool-table">
                     <thead>
                       <tr>
                         <th>ID</th>
@@ -67,6 +68,24 @@
                       {% endfor %}
                     </tbody>  
                   </table>
+                  <script>
+                    function generate() {
+                        var doc = new jsPDF();
+                
+                        var pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
+                        var pageWidth = doc.internal.pageSize.width || doc.internal.pageSize.getWidth();
+                        // FOOTER
+                        let str = "Enterprise Booking Report";
+                        doc.setTextColor(100);
+                        doc.setFontSize(20);
+                        doc.text(str, pageWidth / 2, pageHeight  - 285, 'center');
+                        // Simple html example
+                        doc.autoTable({html: '#table',startY:20});
+                
+                        doc.save('table.pdf');
+                    }
+                </script>
+
                   </div>
       </div></div>
       
@@ -75,6 +94,33 @@
     </div>
     <!-- /.content --> 
   </div>
+  
+  <script type="text/javascript" src="jquery-3.4.1.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.22/pdfmake.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+  <script src="{% static '/plugins/table-expo/jspdf.debug.js' %}"></script>
+<script src="{% static '/plugins/table-expo/jspdf.plugin.autotable.js' %}"></script>
+
+  <script type="text/javascript">
+      $("body").on("click", "#btnExport", function () {
+          html2canvas($('#tableExample3')[0], {
+              onrendered: function (canvas) {
+                  var data = canvas.toDataURL();
+                  var docDefinition = {
+                      content: [{
+                          image: data,
+                          width: 600
+                      }]
+                  };
+                  pdfMake.createPdf(docDefinition).download("Table.pdf");
+              }
+          });
+      });
+  </script>
+
+
+
+
   {% endblock %}
   {% block script %}
   <script src="{% static 'dist/plugins/datatables/jquery.dataTables.min.js' %}"></script> 
