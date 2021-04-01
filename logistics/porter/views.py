@@ -10,7 +10,7 @@ from django.conf import settings
 import json
 import datetime
 from django.contrib import messages
-
+from django.core import serializers
 
 
 # Create your views here.
@@ -583,8 +583,9 @@ def client_home(request):
     category=Category.objects.all()
     vehicle=Vehicle.objects.all()
     if request.method=='GET':
-    
-        return render(request,"client/home.html",{'category':category,'vehicle':vehicle})
+        tmpJson = serializers.serialize("json",vehicle)
+        tmpObj = json.loads(tmpJson)
+        return render(request,"client/home.html",{'category':category,'vehicle':vehicle, 'js_vehicles':json.dumps(tmpObj)})
     else:
         email=request.POST.get('email')
         mail_subject = "Porter - SUBSCRIBE"

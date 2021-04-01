@@ -97,7 +97,7 @@
             <!-- category-area-end -->
 
             <!-- services-area -->
-            {% if request.session.customer_id %}
+            {% if not request.session.enterprise_id %}
             <section class="services-area delivery-bg pt-110 pb-90">
                 <div class="container">
                     <div class="row justify-content-center">
@@ -165,13 +165,13 @@
                 <div class="container">
                     <div class="row">
                        
-                        <div class="col-lg-6 mx-auto">
+                        <div class="col-lg-12 mx-auto">
                             <div class="cta-area cta-pl">
                                 <div class="section-title white-title mb-60">
-                                    <h2>Customer Get Estimate</h2>
+                                    <h2 class="text-center">Customer Get Estimate</h2>
                                    
                                 </div>
-                                <div class="cta-from">
+                                <div class="cta-from col-lg-6 mx-auto">
                                     <form id="distance_form">
                                         
                                         <div class="cta-form-col d-flex justify-content-between">
@@ -191,7 +191,7 @@
                                         </div> -->
                                       
                                        
-                                        <input class="btn"  type="submit" value="Calculate"/>
+                                        <input class="btn"  type="submit" value="Calculate" onclick="calculate_total()"/>
                                     </form>
                                     <br/>
                                     <div id="result">
@@ -204,6 +204,31 @@
                                             <li id="to_loaction" class="list-group-item d-flex justify-content-between align-items-center">TO : </li>
                                         </ul>
                                         </div>
+                                      
+                                </div>
+                                <div class="pricing-wrap pl-50 pr-50" id="estimateDiv" style="display:none;">
+                                    <div class="row">
+                                   
+                                        {% for ve in vehicle %}
+                                        <div class="col-lg col-md-6">
+                                            <div class="single-pricing text-center mb-5">
+                                                <div class="pricing-head mb-3">
+                                                    <div class="pricing-icon mb-3">
+                                                        <img src="{{ ve.image.url }}" height="100" width="100" alt="img">
+                                                    </div>
+                                                    
+                                                   <h5 class="text-info" id="price{{ve.id}}"><b>₹ {{ ve.price }}</b></h5>
+                                                   <h6 class="text-dark">{{ ve.vehicle_name }}</h6>
+                                                   <h6 class="text-success"></h6><span>Estimate Amount</span><br/></h6>
+                                                   <h6 id="estimate{{ve.id}}">₹{{ ve.price }}</h6>
+                                                   
+                                                </div>
+                                               
+                    
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -288,6 +313,24 @@
         <!-- main-area-end -->
 
         <!-- footer -->
+<script type="text/javascript">
+        var vehicles = JSON.parse("{{ js_vehicles|escapejs}}");
+        console.log(vehicles);
+        function calculate_total() {
 
-        
+            setTimeout(function () {
+                var distance = document.getElementById('distance_in_kilometer').innerHTML;
+                console.log(distance);
+                var vehicles = JSON.parse("{{ js_vehicles|escapejs}}");
+                console.log(vehicles);
+                for(var i of vehicles) {
+                    var total = i["fields"]['price'] * parseFloat(distance.split(" ")[0]);
+                    $('#estimate'+i['pk']).html(" ₹ " + total.toFixed(2));
+                    console.log(total)
+                    //document.getElementById('total').value = total;
+                }
+                $('#estimateDiv').show();
+            }, 1000);
+        }
+</script>
 {% endblock %}
