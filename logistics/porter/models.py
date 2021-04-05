@@ -45,6 +45,15 @@ class Enterprise(models.Model):
     contact_no = models.CharField(max_length=12)
     city_id = models.ForeignKey(City, on_delete=models.CASCADE)
     block_status=models.BooleanField(default=False)
+    def _str_(self):
+        return str(self.id)
+
+    @staticmethod
+    def get_user_by_email(email):
+        try:
+            return Enterprise.objects.get(email = email)
+        except:
+            return False
 
 class Driver(models.Model):
     driver_name = models.CharField(max_length=50)

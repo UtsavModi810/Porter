@@ -110,7 +110,7 @@
                     </div>
                   
                     <div class="services-wrapper">
-                        
+                       
                         <div class="row">
                         
                             {% for cat in category %}
@@ -126,6 +126,7 @@
                                        
                                         <span>{{ cat.category_name }}</span>
                                         <p>{{ cat.category_description }}</p>
+                                      
                                     </div>
                                 </div>
                             </div>
@@ -215,6 +216,7 @@
                                                 <div class="pricing-head mb-3">
                                                     <div class="pricing-icon mb-3">
                                                         <img src="{{ ve.image.url }}" height="100" width="100" alt="img">
+                                                       
                                                     </div>
                                                     
                                                    <h5 class="text-info" id="price{{ve.id}}"><b>₹ {{ ve.price }}</b></h5>

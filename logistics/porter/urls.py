@@ -64,7 +64,9 @@ urlpatterns = [
     path('bookingenterprise/', views.bookingenterprise, name='bookingenterprise'),  
     path('bookingenterprise1/', views.bookingenterprise1, name='bookingenterprise1'),   
     path('bookingdetailenterprise/', views.bookingdetailenterprise, name='bookingdetailenterprise'),   
-     path('enterprisetrackorder1/', views.enterprisetrackorder1, name='enterprisetrackorder1'),
+    path('enterprisetrackorder1/', views.enterprisetrackorder1, name='enterprisetrackorder1'),
+    path('enterprise_forget/', views.enterprise_forget, name='enterprise_forget'),
+    path('resetpasswordenterprise/', views.resetpasswordenterprise, name='resetpasswordenterprise'),
 
 
 

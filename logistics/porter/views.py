@@ -1028,3 +1028,41 @@ def enterprisetrackorder1(request):
         booking=Booking.objects.get(id=booking_id)
 
     return render(request,'client/trackorder.html',{'track_status':booking.track_status,'booking':booking})
+
+
+def enterprise_forget(request):
+    if request.method == 'GET':
+        return render(request,'enterprise/enterprise_forget.html')
+    else:
+        forget_email = request.POST.get('forget_email')
+        enterprise = Enterprise.get_user_by_email(forget_email)
+        msg = None
+        if enterprise:
+            encoded_mail = signing.dumps(str(enterprise.email))
+            mail_subject = "Porter - Forgot Password"
+            message = "open link for reset pasword : \n http://127.0.0.1:8000/resetpasswordenterprise?e="+ encoded_mail
+            email_from = settings.EMAIL_HOST_USER
+            recipient_list = [ str(enterprise.email)]
+            send_mail(mail_subject, message, email_from, recipient_list)
+
+            msg = 'You will receive an email for reset your password on your registered email ID...'
+        else:
+            msg = 'Please enter registered email...'
+        
+        return render(request,'enterprise/enterprise_forget.html', {'msg':msg})
+
+
+def resetpasswordenterprise(request):
+    msg = None
+    if request.method == 'GET':
+        email = request.GET.get('e')
+        decoded_email = signing.loads(email)
+        request.session['decoded_email'] = decoded_email
+        return render(request,'enterprise/resetpasswordenterprise.html',{'msg':msg})
+    else:
+        new_pass = request.POST.get('password')
+        enterprise = Enterprise.objects.get(email = request.session.get('decoded_email'))
+        enterprise.password = new_pass
+        enterprise.save(update_fields=['password'])
+        msg = "Password reseted successfully..."
+        return redirect('enterpriselogin')   
